@@ -1,14 +1,10 @@
 import { deliveryDataType } from '@/types/ResponseTypes';
 import Link from 'next/link';
 
-function CartDeliveryNav({
-  delivery,
-}: {
-  delivery: deliveryDataType | undefined;
-}) {
+function CartDeliveryNav({ delivery }: { delivery: deliveryDataType | null }) {
   return (
     <div className="flex flex-col gap-y-1 text-md px-5 py-3 bg-gray-100 mt-1">
-      {delivery !== undefined ? (
+      {delivery ? (
         <>
           <p className="flex justify-between font-extrabold">
             <span>

@@ -16,7 +16,7 @@ async function Page() {
       deliveryId,
       session?.user?.accessToken
     );
-    if (res.status === 'OK') {
+    if (res.httpStatus === 'OK') {
       redirect('/mypage/delivery');
     }
   };

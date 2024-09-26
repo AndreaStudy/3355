@@ -1,12 +1,20 @@
-'use client';
-
+import { changePw } from '@/actions/auth/signUpAction';
 import { Button } from '../ui/button';
 import { Layout } from '../ui/layout';
 import ChangePwField from './ChangePwField';
+import { useRouter } from 'next/navigation';
 
-function ChangePwForm() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+function ChangePwForm({ token }: { token: string }) {
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const res = await changePw(formData, token);
+    if (res.httpStatus === 'OK') {
+      router.push('/sign-in');
+    } else {
+      alert('사용할 수 없는 비밀번호 입니다.');
+    }
   };
 
   return (

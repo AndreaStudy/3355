@@ -80,7 +80,7 @@ function DeliveryField({ delivery }: { delivery: deliveryDataType | null }) {
     setInputValues((prev) => ({
       ...prev,
       postNumber: data.zonecode,
-      basicAddress: data.address,
+      address: data.address,
       detailAddress: data.buildingName || '',
     }));
     setIsModalOpen(false);

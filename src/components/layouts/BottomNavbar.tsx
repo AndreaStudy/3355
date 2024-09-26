@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 function BottomNavbar() {
   return (
-    <div className="w-full flex justify-around items-center h-16 fixed bottom-0 left-0 z-10 bg-white">
+    <div className="fixed bottom-0 z-10 w-full max-w-md mx-auto flex justify-around items-center h-16 bg-white">
       <Link href="/" className="flex flex-col items-center">
         <HomeIcon />
         <span className="pt-[4] text-xs">홈</span>

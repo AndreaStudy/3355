@@ -95,3 +95,53 @@ export async function findId(formData: FormData) {
   }
   return null;
 }
+
+// id, e-mail을 통한 아이디찾기
+export async function findPw(formData: FormData) {
+  'use server';
+  const payload = {
+    userId: formData.get('id'),
+    email: formData.get('email'),
+  };
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/auth/find-password`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  if (res.ok) {
+    const data = await res.json();
+    return data.result;
+  }
+  return null;
+}
+
+// 비밀번호 변경
+export async function changePw(formData: FormData, token: string) {
+  'use server';
+  const payload = {
+    newPassword: formData.get('password'),
+  };
+  console.log(payload);
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/auth/update-password`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (res.ok) {
+    const data = await res.json();
+    return data;
+  }
+  return null;
+}

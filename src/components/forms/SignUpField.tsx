@@ -16,6 +16,7 @@ function SignUpField({ formData }: { formData: FormData }) {
     password: '',
     confirmPassword: '',
   });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const clearInput = (name: keyof SignUpFieldType) => {
     setInputValues((prev) => ({ ...prev, [name]: '' }));
@@ -39,8 +40,10 @@ function SignUpField({ formData }: { formData: FormData }) {
         fieldErrors[fieldName] = error.message;
       });
       setErrorMessages((prev) => ({ ...prev, [name]: fieldErrors[name] }));
+      setIsFormValid(false);
     } else {
       setErrorMessages((prev) => ({ ...prev, [name]: undefined }));
+      setIsFormValid(true);
     }
   };
 
@@ -95,7 +98,7 @@ function SignUpField({ formData }: { formData: FormData }) {
         <p className="text-xs text-red-500">{errorMessages.confirmPassword}</p>
       )}
       <Layout variant="submitDiv">
-        <Button size={'submit'} type="submit">
+        <Button size={'submit'} type="submit" disabled={!isFormValid}>
           확인
         </Button>
       </Layout>

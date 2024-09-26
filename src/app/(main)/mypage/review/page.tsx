@@ -4,7 +4,7 @@ import MyReviewContent from '@/components/pages/main/mypage/review/MyReviewConte
 function Page() {
   return (
     <>
-      <MyPageHeader text="리뷰 관리" />
+      <MyPageHeader text="나의 리뷰 관리" />
       <MyReviewContent />
     </>
   );

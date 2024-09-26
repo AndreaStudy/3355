@@ -1,7 +1,7 @@
 function GiftContent() {
   return (
-    <div className="p-4">
-      <p className="text-2xl font-extrabold">받은 선물함 받아오는 api 활용</p>
+    <div className="flex justify-center items-center p-4 h-96">
+      <p className="text-xl font-extrabold">받은 선물 내역이 없습니다.</p>
     </div>
   );
 }

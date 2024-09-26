@@ -71,12 +71,25 @@ export interface deliveryDataType {
   baseAddress: boolean;
 }
 
+// 내 주문내역 정보 타입
+export interface myOrderDataType {
+  id: number;
+  address: string;
+  detailAddress: string;
+  userName: string;
+  productQuantity: number;
+  totalAmount: number;
+  orderStatus: string;
+  phone1: string;
+}
+
 // 내 리뷰에 관한 정보 타입
 export interface myReviewDataType {
   content: string;
   reviewUuid: string;
   reviewScore: number;
   productUuid: string;
+  authorName: string;
   regDate: string;
   modDate: string;
 }
@@ -212,4 +225,10 @@ export interface eventInfoDataType {
 export interface findIdDataType {
   userId: string;
   message: string;
+}
+
+export interface findPwDataType {
+  accessToken: string;
+  nickname: string;
+  user: boolean;
 }

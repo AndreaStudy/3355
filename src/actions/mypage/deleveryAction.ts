@@ -83,7 +83,6 @@ export async function postDeliveryAction(formData: FormData, token: string) {
     receiver: formData.get('receiver') as string,
     baseAddress: formData.get('baseAddress') === 'on',
   };
-  console.log(payload);
 
   const res = await fetch(`${process.env.API_BASE_URL}/api/v1/shipping/add`, {
     method: 'POST',
@@ -171,4 +170,41 @@ export async function deleteDeliveryData(
   const data = await res.json();
   revalidateTag('deleteDelivery');
   return data.result;
+}
+
+// 배송지 약관 동의 여부 조회하기
+export async function getDeliveryTermData(token: string): Promise<boolean> {
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/shipping/agreeStatus`,
+    {
+      method: 'GET',
+      next: { tags: ['toggleDeliveryTerm'] },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+  if (!res.ok) {
+    throw new Error('Failed to fetch delivery term');
+  }
+  const data = await res.json();
+  return data.result;
+}
+
+// 배송지 약관 동의 여부 토글하기
+export async function postToggleDeliveryTermAction(token: string) {
+  'use server';
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/shipping/agreeCancel`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+  revalidateTag('toggleDeliveryTerm');
+  return await res.json();
 }

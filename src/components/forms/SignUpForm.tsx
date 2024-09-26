@@ -31,8 +31,10 @@ function SignUpForm({
     const res = await createAuth(formData);
     if (res.code === 200) {
       router.push('/sign-in');
+    } else if (res.code === 2101) {
+      alert(res.message);
     } else {
-      router.push('/sign-up');
+      alert('서버에 알 수 없는 오류가 발생했습니다. 다시 시도해 주십시오.');
     }
   };
 

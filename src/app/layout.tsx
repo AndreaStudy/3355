@@ -30,7 +30,7 @@ export default async function RootLayout({
   const isAuth = session?.user ? true : false;
   return (
     <html lang="ko">
-      <body className="font-NanumSquare">
+      <body className="font-NanumSquare max-w-md mx-auto">
         <AuthContextProvider isAuth={isAuth}>{children}</AuthContextProvider>
       </body>
     </html>

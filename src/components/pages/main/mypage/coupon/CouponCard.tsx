@@ -20,7 +20,8 @@ function CouponCard({ coupon, show }: CouponCardProps) {
     <section className="p-4">
       <div className="flex justify-between">
         <p className="text-xl text-green-500 font-bold">
-          {coupon.discount}% 할인
+          {coupon.discount}
+          {coupon.discount > 100 ? '원 할인' : '% 할인'}
         </p>
         {show === 'coupons' ? (
           isAvailable ? (

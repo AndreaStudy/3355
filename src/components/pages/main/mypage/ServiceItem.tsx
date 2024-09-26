@@ -40,7 +40,7 @@ function ServiceItem({ text, link }: { text: string; link: string }) {
       className="w-full flex justify-between items-center py-2"
       href={`mypage/${link}`}
     >
-      <li className="flex items-center gap-x-2">
+      <li key={text} className="flex items-center gap-x-2">
         {Icon && <Icon size={30} color="gray" />}
         <span className="font-semibold">{text}</span>
       </li>

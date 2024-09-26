@@ -1,28 +1,29 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
 
-function AgreeMotion({ agree }: { agree: boolean }) {
-  const [toggle, setToggle] = useState<boolean>(agree);
+function AgreeMotion({
+  agree,
+  handleToggle,
+}: {
+  agree: boolean;
+  handleToggle: () => void;
+}) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    setToggle(agree);
-  }, [agree]);
-
-  const handleToggle = () => {
-    if (toggle) {
+  const handleModal = () => {
+    if (agree) {
       setIsModalOpen(true);
     } else {
-      setToggle(true);
+      handleToggle();
     }
   };
 
   const handleConfirm = () => {
-    setToggle(false);
     setIsModalOpen(false);
+    handleToggle();
   };
 
   const handleClose = () => {
@@ -32,8 +33,8 @@ function AgreeMotion({ agree }: { agree: boolean }) {
   return (
     <>
       <div
-        onClick={handleToggle}
-        className={`flex h-7 w-12 rounded-full ${!toggle ? 'justify-start bg-slate-200' : 'justify-end bg-starbucks-green'} p-1`}
+        onClick={handleModal}
+        className={`flex h-7 w-12 rounded-full ${!agree ? 'justify-start bg-slate-200' : 'justify-end bg-starbucks-green'} p-1`}
       >
         <motion.p
           className={'h-5 w-5 rounded-full bg-white'}
