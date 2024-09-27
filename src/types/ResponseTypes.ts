@@ -232,3 +232,14 @@ export interface findPwDataType {
   nickname: string;
   user: boolean;
 }
+
+export interface totalPriceAndDiscountDataType {
+  totalDiscount: number;
+  totalPrice: number;
+}
+
+export interface shippingProductDataType {
+  basicInfo: productBasicDataType;
+  price: productPriceDataType;
+  image: imageDataType;
+}

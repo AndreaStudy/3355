@@ -1,5 +1,6 @@
 'use server';
 import { myReviewDataType } from '@/types/ResponseTypes';
+import { redirect } from 'next/navigation';
 
 export async function getMyReviewListData(
   token: string
@@ -16,7 +17,7 @@ export async function getMyReviewListData(
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch my review list');
+    return redirect('/error?message=Failed to fetch my review list');
   }
   const data = await res.json();
   return data.result;

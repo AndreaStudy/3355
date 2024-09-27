@@ -16,9 +16,12 @@ const buttonVariants = cva('font-bold', {
       orderlist: 'border bg-white text-slate-600 rounded-md',
       calendar: 'border bg-slate-100 text-black rounded-md',
       logout: 'bg-none',
+      update: 'bg-background',
     },
     size: {
       default: 'h-10 px-4 py-2',
+      xs: 'h-6',
+      sm: 'h-9 rounded-md px-3',
       submit: 'h-10 px-4 py-2 w-full rounded-full disabled:bg-slate-300',
       kakao:
         'grid grid-cols-10 mt-2 items-center w-full h-10 bg-[#FAE300] text-black relative rounded-full',

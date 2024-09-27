@@ -1,4 +1,3 @@
-import { createAuth } from '@/actions/auth/signUpAction';
 import { getSignUpInroData } from '@/actions/auth/statics/signUpIntroAction';
 import SignUpForm from '@/components/forms/SignUpForm';
 import { Layout } from '@/components/ui/layout';
@@ -11,7 +10,7 @@ export default async function Page() {
 
   return (
     <Layout variant="authentication">
-      <SignUpForm items={items} createAuth={createAuth} />
+      <SignUpForm items={items} />
     </Layout>
   );
 }

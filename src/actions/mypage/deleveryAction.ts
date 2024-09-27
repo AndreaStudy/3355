@@ -3,6 +3,7 @@
 import { AddDeliveryRequestType } from '@/types/RequestTypes';
 import { deliveryDataType } from '@/types/ResponseTypes';
 import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 // 기본 배송지 정보 받아오기
 export async function getBaseDeliveryData(
@@ -16,7 +17,7 @@ export async function getBaseDeliveryData(
     },
   });
   if (!res.ok) {
-    throw new Error('Failed to fetch base delivery item');
+    return redirect('/error?message=Failed to fetch base delivery item');
   }
   const data = await res.json();
   return data.result;
@@ -38,7 +39,7 @@ export async function getDeliveryData(
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch delivery item');
+    return redirect('/error?message=Failed to fetch delivery item');
   }
   const data = await res.json();
   return data.result;
@@ -60,7 +61,7 @@ export async function getDeliveryListData(
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch delivery item list');
+    return redirect('/error?message=Failed to fetch delivery item list');
   }
   const data = await res.json();
   return data.result;
@@ -165,7 +166,7 @@ export async function deleteDeliveryData(
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to delete delivery item list');
+    return redirect('/error?message=Failed to delete delivery item list');
   }
   const data = await res.json();
   revalidateTag('deleteDelivery');
@@ -186,7 +187,7 @@ export async function getDeliveryTermData(token: string): Promise<boolean> {
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch delivery term');
+    return redirect('/error?message=Failed to fetch delivery term');
   }
   const data = await res.json();
   return data.result;

@@ -1,5 +1,4 @@
 import { getMyReviewListData } from '@/actions/mypage/myReviewAction';
-import { myReviewDataType } from '@/types/ResponseTypes';
 import MyReviewCard from './MyReviewCard';
 import React from 'react';
 import { getServerSession } from 'next-auth';

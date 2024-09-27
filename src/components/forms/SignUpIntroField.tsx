@@ -103,9 +103,6 @@ function SignUpIntroField({
           </label>
         ))}
       </div>
-      {errorMessages.terms && (
-        <p className="text-xs text-red-500">{errorMessages.terms}</p>
-      )}
       <Layout variant="submitDiv">
         <Button
           size={'submit'}

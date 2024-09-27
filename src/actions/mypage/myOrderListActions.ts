@@ -1,4 +1,5 @@
 import { myOrderDataType } from '@/types/ResponseTypes';
+import { redirect } from 'next/navigation';
 
 // 기본 배송지 정보 받아오기
 export async function getMyOrderListData(
@@ -12,7 +13,7 @@ export async function getMyOrderListData(
     },
   });
   if (!res.ok) {
-    throw new Error('Failed to fetch my order list item data');
+    return redirect('/error?message=Failed to fetch my order list item data');
   }
   const data = await res.json();
   return data.result;

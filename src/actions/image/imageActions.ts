@@ -1,3 +1,4 @@
+'use server';
 import { commonResType, imageDataType } from '@/types/ResponseTypes';
 
 // 메인(썸네일) 이미지 조회

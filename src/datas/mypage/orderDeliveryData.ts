@@ -8,7 +8,7 @@ export const orderDeliveryData: commonResType<orderDeliveryDataType[]> = {
   result: [
     {
       id: 'paid',
-      value: 4,
+      value: 1,
     },
     {
       id: 'ready',
@@ -16,11 +16,11 @@ export const orderDeliveryData: commonResType<orderDeliveryDataType[]> = {
     },
     {
       id: 'ing',
-      value: 3,
+      value: 0,
     },
     {
       id: 'complete',
-      value: 1,
+      value: 4,
     },
   ],
 };
