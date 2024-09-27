@@ -98,30 +98,6 @@ export async function getProductReviewSummary(
   return data.result as productReviewSummaryDataType;
 }
 
-// 상품 정보 조합
-export async function getProductInfo(
-  productUuid: string
-): Promise<productInfoDataType> {
-  try {
-    const [basicInfo, price, reviewSummary, image] = await Promise.all([
-      getProductBasicInfo(productUuid),
-      getProductPrice(productUuid),
-      getProductReviewSummary(productUuid),
-      getMainImageData(productUuid),
-    ]);
-
-    return {
-      productUuid: productUuid,
-      ...basicInfo,
-      ...price,
-      ...reviewSummary,
-      image: image,
-    } as productInfoDataType;
-  } catch (error) {
-    return redirect('/error?message=Failed to fetch product combination info');
-  }
-}
-
 export async function getProductsByCategory(
   mainCategoryName: string,
   subCategoryName?: string

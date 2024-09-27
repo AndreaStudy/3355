@@ -7,7 +7,6 @@ import FitImage from '../ui/FitImage';
 import { StarIcon } from 'lucide-react';
 import {
   getProductBasicInfo,
-  getProductInfo,
   getProductPrice,
   getProductReviewSummary,
 } from '@/actions/product/productActions';

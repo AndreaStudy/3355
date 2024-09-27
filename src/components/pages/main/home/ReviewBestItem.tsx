@@ -1,7 +1,15 @@
-import { getProductInfo } from '@/actions/product/productActions';
+import { getMainImageData } from '@/actions/image/imageActions';
+import {
+  getProductBasicInfo,
+  getProductPrice,
+  getProductReviewSummary,
+} from '@/actions/product/productActions';
 import { getReviewItem } from '@/actions/review/reviewActions';
 import FitImage from '@/components/ui/FitImage';
-import { productReviewUuidDataType } from '@/types/ResponseTypes';
+import {
+  productInfoDataType,
+  productReviewUuidDataType,
+} from '@/types/ResponseTypes';
 import { StarIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -11,8 +19,20 @@ async function ReviewBestItem({
 }: {
   review: productReviewUuidDataType;
 }) {
-  const productInfo = await getProductInfo(review.productUuid);
   const reviewInfo = await getReviewItem(review.reviewUuid);
+  const [basicInfo, price, reviewSummary, image] = await Promise.all([
+    getProductBasicInfo(review.productUuid),
+    getProductPrice(review.productUuid),
+    getProductReviewSummary(review.productUuid),
+    getMainImageData(review.productUuid),
+  ]);
+  const productInfo: productInfoDataType = {
+    productUuid: review.productUuid,
+    ...basicInfo,
+    ...price,
+    ...reviewSummary,
+    image: image,
+  };
   return (
     <div className="w-80 min-w-80 h-auto mr-4 flex gap-1 ">
       <Link href={`/product/${review.productUuid}`} className="w-2/5">

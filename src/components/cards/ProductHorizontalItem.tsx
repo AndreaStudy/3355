@@ -6,7 +6,12 @@ import { Checkbox } from '../ui/checkbox';
 import Link from 'next/link';
 import FitImage from '../ui/FitImage';
 import { productInfoDataType } from '@/types/ResponseTypes';
-import { getProductInfo } from '@/actions/product/productActions';
+import {
+  getProductBasicInfo,
+  getProductPrice,
+  getProductReviewSummary,
+} from '@/actions/product/productActions';
+import { getMainImageData } from '@/actions/image/imageActions';
 
 function ProductHorizontalItem({
   productUuid,
@@ -22,7 +27,19 @@ function ProductHorizontalItem({
   const [productInfo, setProductInfo] = useState<productInfoDataType>();
   useEffect(() => {
     const getData = async () => {
-      const data = await getProductInfo(productUuid);
+      const [basicInfo, price, reviewSummary, image] = await Promise.all([
+        getProductBasicInfo(productUuid),
+        getProductPrice(productUuid),
+        getProductReviewSummary(productUuid),
+        getMainImageData(productUuid),
+      ]);
+      const data = {
+        productUuid: productUuid,
+        ...basicInfo,
+        ...price,
+        ...reviewSummary,
+        image: image,
+      } as productInfoDataType;
       setProductInfo(data);
     };
     getData();
