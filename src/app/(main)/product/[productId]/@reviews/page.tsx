@@ -6,7 +6,6 @@ import ReviewList from '@/components/pages/main/review/ReviewList';
 import React from 'react';
 
 async function Page({ params }: { params: { productId: string } }) {
-  const reviewSummary = await getProductReviewSummary(params.productId);
   const reviewList = await getReviewList(params.productId, 0, 5);
 
   return (
@@ -15,12 +14,12 @@ async function Page({ params }: { params: { productId: string } }) {
       className="flex flex-col gap-6 mt-4 bg-white px-4 py-8"
     >
       <h1 className="text-lg font-bold">고객 리뷰</h1>
-      {reviewSummary.reviewcount === 0 ? (
+      {reviewList.length === 0 ? (
         <p className="mx-auto py-4">아직 등록된 리뷰가 없습니다.</p>
       ) : (
         <>
-          <MediaReviewSummary productUuid={params.productId} />
-          <ReviewList reviewList={reviewList} />
+          {/* <MediaReviewSummary productUuid={params.productId} /> */}
+          <ReviewList reviewList={reviewList} productUuid={params.productId} />
         </>
       )}
     </section>

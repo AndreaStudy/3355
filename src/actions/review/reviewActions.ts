@@ -13,40 +13,39 @@ export async function getReviewList(
   productUuid: string,
   pageNum: number = 0,
   pageSize: number = 20
-): Promise<reviewDataType[]> {
+): Promise<string[]> {
   'use server';
   const res = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/review/${productUuid}/allReviewsOfProduct?page=${pageNum}&size=${pageSize}`
+    `${process.env.API_BASE_URL}/api/v1/review/allReviewsOfProduct?productUuid=${productUuid}&size=${pageSize}&page=${pageNum}`
   );
-  console.log(res);
   if (res.status === 404) return [];
   if (!res.ok) {
     return redirect('/error?message=Failed to fetch review list');
   }
   const data = (await res.json()) as commonResType<
-    infiniteResultType<reviewDataType[]>
+    infiniteResultType<string[]>
   >;
-  return data.result.content as reviewDataType[];
+  return data.result.content as string[];
 }
 
 export async function getMediaReviewList(
   productUuid: string,
   pageNum: number = 0,
   pageSize: number = 20
-): Promise<reviewDataType[]> {
+): Promise<string[]> {
   'use server';
   const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/review/allReviewsHaveMediaOfProduct?productUuid=${productUuid}&page=${pageNum}&pageSize=${pageSize}`
   );
+  if (res.status === 404) return [];
   if (!res.ok) {
     return redirect('/error?message=Failed to fetch media review list');
   }
-
   const data = (await res.json()) as commonResType<
-    infiniteResultType<reviewDataType[]>
+    infiniteResultType<string[]>
   >;
   if (data.result === null) return [];
-  return data.result.content as reviewDataType[];
+  return data.result.content as string[];
 }
 
 export async function getReviewItem(

@@ -3,12 +3,20 @@ import { reviewDataType } from '@/types/ResponseTypes';
 import React from 'react';
 import FitImage from '../ui/FitImage';
 
-async function MediaReviewItem({ media }: { media: reviewDataType }) {
-  const img = await getMainImageData(media.reviewUuid);
+async function MediaReviewItem({
+  mediaReviewUuid,
+}: {
+  mediaReviewUuid: string;
+}) {
+  const img = await getMainImageData(mediaReviewUuid);
   return (
-    <div className="w-24 min-w-24 h-24 ">
-      <FitImage src={img.s3url} alt={img.imageName} />
-    </div>
+    <>
+      {img.s3url !== '' && (
+        <div className="w-24 min-w-24 h-24 ">
+          <FitImage src={img.s3url} alt={img.imageName} />
+        </div>
+      )}
+    </>
   );
 }
 

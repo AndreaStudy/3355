@@ -13,6 +13,7 @@ async function Page({
   const reviewItem: reviewItemDataType = await getReviewItem(
     searchParams.reviewId
   );
+  console.log('*&&&&&&&&&&&&&&&&&&&&&&&&', reviewItem);
   // fetch: reviewId로 img 정보 들고오기
   const reviewImgList: string[] = [
     'https://succ.ssgcdn.com/uphoto/202408/20240802102941_1223449928_0_1.jpg',
@@ -33,9 +34,7 @@ async function Page({
             </span>
           </div>
           <p>{reviewItem.content}</p>
-          <span className="text-xs text-[#888888]">
-            {reviewItem.modDate.slice(0, 10)}
-          </span>
+          <span className="text-xs text-[#888888]">{reviewItem.modDate}</span>
         </div>
       </div>
     </ReviewDetailModal>

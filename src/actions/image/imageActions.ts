@@ -9,6 +9,14 @@ export async function getMainImageData(uuid: string): Promise<imageDataType> {
     `${process.env.API_BASE_URL}/api/v1/image/${uuid}/mainMedia`
   );
 
+  if (res.status === 404)
+    return {
+      s3url: '',
+      imageName: '',
+      thumbnailPath: null,
+      imageUuid: '',
+      otherUuid: null,
+    };
   if (!res.ok) {
     return redirect('/error?message=Image_fetch_error');
   }

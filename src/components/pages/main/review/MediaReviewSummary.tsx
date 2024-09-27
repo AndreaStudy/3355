@@ -8,7 +8,7 @@ import Link from 'next/link';
 import React, { Suspense } from 'react';
 
 async function MediaReviewSummary({ productUuid }: { productUuid: string }) {
-  const mediaReviewList = await getMediaReviewList(productUuid, 0, 10);
+  const mediaReviewUuidList = await getMediaReviewList(productUuid, 0, 10);
   const reviewSummary = await getProductReviewSummary(productUuid);
 
   return (
@@ -24,29 +24,30 @@ async function MediaReviewSummary({ productUuid }: { productUuid: string }) {
           </span>
         </div>
       </div>
-      {mediaReviewList.length > 0 && (
+      {mediaReviewUuidList.length > 0 && (
         <div className="flex w-full justify-between">
           <span className="font-bold">포토&동영상 리뷰</span>
           <Link href={`/product/${productUuid}/photoReviewAll`}>
             <div className="flex items-center text-sm">
-              <span>더보기({mediaReviewList.length.toLocaleString()})</span>
+              <span>더보기({mediaReviewUuidList.length.toLocaleString()})</span>
               <ChevronRight width={16} className="text-gray-500" />
             </div>
           </Link>
         </div>
       )}
       <div className="flex gap-2 overflow-x-auto">
-        {mediaReviewList.map((media) => {
-          return (
-            <Suspense
-              key={media.reviewUuid}
-              fallback={<Skeleton className="w-24 h-24" />}
-            >
-              <MediaReviewItem media={media} />;
-            </Suspense>
-          );
-        })}
-        {mediaReviewList.length >= 8 && (
+        {mediaReviewUuidList.length > 0 &&
+          mediaReviewUuidList.map((mediaReviewUuid) => {
+            return (
+              <Suspense
+                key={mediaReviewUuid}
+                fallback={<Skeleton className="w-24 h-24" />}
+              >
+                <MediaReviewItem mediaReviewUuid={mediaReviewUuid} />;
+              </Suspense>
+            );
+          })}
+        {mediaReviewUuidList.length >= 8 && (
           <Link href={`/product/${productUuid}/photoReviewAll`}>
             <div className="w-24 min-w-24 h-24 bg-gray-300 flex flex-col justify-center items-center">
               <span>+</span>

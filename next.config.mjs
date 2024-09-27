@@ -7,6 +7,7 @@ const nextConfig = {
       'simg.ssgcdn.com',
       'sitem.ssgcdn.com',
       'sui.ssgcdn.com',
+      't3-starbucksbucket.s3.ap-northeast-2.amazonaws.com',
     ],
   },
   webpack: (config) => {

@@ -13,11 +13,11 @@ function Page({ params }: { params: { productId: string } }) {
   const [ordering, setOrdering] = useState<string>('추천순');
 
   // productUUID 활용 무한스크롤 (use client) + 상품 이미지 관련 api 추가
-  const [reviewList, setReviewList] = useState<reviewDataType[]>([]);
+  const [reviewUuidList, setReviewUuidList] = useState<string[]>([]);
   useEffect(() => {
     const getData = async () => {
       const reviews = await getReviewList(params.productId);
-      setReviewList(reviews);
+      setReviewUuidList(reviews);
     };
     getData();
   }, []);
@@ -37,8 +37,12 @@ function Page({ params }: { params: { productId: string } }) {
             <ReviewOrdering ordering={ordering} setOrdering={setOrdering} />
           </div>
           <div className="flex flex-col gap-4 text-sm divide-y">
-            {reviewList.map((review) => (
-              <ReviewItem key={review.reviewUuid} review={review} />
+            {reviewUuidList.map((reviewUuid) => (
+              <ReviewItem
+                key={reviewUuid}
+                reviewUuid={reviewUuid}
+                productUuid={params.productId}
+              />
             ))}
           </div>
         </section>
