@@ -1,7 +1,5 @@
 'use client';
 
-import { productDetailDataType } from '@/types/main/productDetailType';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import TriangleUpIcon from '/public/assets/images/icons/triangleUpIcon.svg';
 import TriangleDownIcon from '/public/assets/images/icons/triangleDownIcon.svg';

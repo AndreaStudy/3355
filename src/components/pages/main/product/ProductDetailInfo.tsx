@@ -1,8 +1,6 @@
-import { productDetailDataType } from '@/types/main/productDetailType';
 import React from 'react';
 import ReportIcon from '/public/assets/images/icons/reportIcon.svg';
 import Link from 'next/link';
-import Image from 'next/image';
 import ProductDetailImageList from './ProductDetailImageList';
 import { productInfoDataType } from '@/types/ResponseTypes';
 
