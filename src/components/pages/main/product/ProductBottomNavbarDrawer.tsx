@@ -1,5 +1,4 @@
 'use client';
-import { addCartItem } from '@/actions/cart/cartAction';
 import {
   DrawerContent,
   DrawerDescription,
@@ -31,9 +30,7 @@ function ProductBottomNavbarDrawer({
       setProductCount((prev) => prev - 1);
     }
   };
-  const addCart = async (productUuid: string, quantity: number) => {
-    await addCartItem(productUuid, quantity);
-  };
+
   return (
     <DrawerContent>
       <DrawerTitle />
