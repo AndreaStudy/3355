@@ -5,6 +5,7 @@ import {
   productUuidDataType,
   infiniteResultType,
 } from '@/types/ResponseTypes';
+import { redirect } from 'next/navigation';
 
 export async function getSearchResults({
   searchValue,
@@ -16,7 +17,7 @@ export async function getSearchResults({
     `${process.env.API_BASE_URL}/api/v1/product/search?keyword=${searchValue}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch');
+    return redirect('/error?message=Failed to fetch search results');
   }
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>

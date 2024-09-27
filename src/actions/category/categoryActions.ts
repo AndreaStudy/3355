@@ -6,6 +6,7 @@ import {
   middleCategoryDataType,
   topCategoryDataType,
 } from '@/types/ResponseTypes';
+import { redirect } from 'next/navigation';
 
 export async function getTopCategories(): Promise<topCategoryDataType[]> {
   'use server';
@@ -13,7 +14,7 @@ export async function getTopCategories(): Promise<topCategoryDataType[]> {
     `${process.env.API_BASE_URL}/api/v1/category/top-categories`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch top-categories');
+    return redirect('/error?message=Failed to fetch top-categories');
   }
   const data = (await res.json()) as commonResType<topCategoryDataType[]>;
   return data.result as topCategoryDataType[];
@@ -27,7 +28,7 @@ export async function getMiddleCategories(
     `${process.env.API_BASE_URL}/api/v1/category/middle-categories/by-id/${topCategoryId}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch middle-categories');
+    return redirect('/error?message=Failed to fetch middle-categories');
   }
 
   const data = (await res.json()) as commonResType<middleCategoryDataType[]>;
@@ -42,7 +43,7 @@ export async function getBottomCategories(
     `${process.env.API_BASE_URL}/api/v1/category/bottom-categories/by-id/${middleCategoryId}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch bottom-categories');
+    return redirect('/error?message=Failed to fetch bottom-categories');
   }
 
   const data = (await res.json()) as commonResType<bottomCategoryDataType[]>;

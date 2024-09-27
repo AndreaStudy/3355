@@ -16,7 +16,7 @@ export async function getEventUuidList(): Promise<eventUuidDataType[]> {
   'use server';
   const res = await fetch(`${process.env.API_BASE_URL}/api/v1/promotion/list`);
   if (!res.ok) {
-    throw new Error('Failed to fetch event list');
+    return redirect('/error?message=Failed to fetch event list');
   }
   const data = (await res.json()) as commonResType<eventUuidDataType[]>;
   return data.result as eventUuidDataType[];
@@ -47,7 +47,9 @@ export async function getProductUuidListByEvent(
     `${process.env.API_BASE_URL}/api/v1/promotion/productsOfPromotion?promotionUuid=${promotionUuid}&page=${page}&size=${size}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch product uuid list by event');
+    return redirect(
+      '/error?message=Failed to fetch product uuid list by event'
+    );
   }
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
@@ -63,7 +65,9 @@ export async function getProductUuidListBySameEvent(productUuid: string) {
     `${process.env.API_BASE_URL}/api/v1/promotion/${productUuid}/samePromotionProducts`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch product uuid list by same event');
+    return redirect(
+      '/error?message=Failed to fetch product uuid list by same event'
+    );
   }
   const data = (await res.json()) as commonResType<productUuidDataType[]>;
   if (data.result === null) return [];

@@ -23,7 +23,7 @@ export async function getAllImageData(uuid: string): Promise<imageDataType[]> {
     `${process.env.API_BASE_URL}/api/v1/image/${uuid}/allMedias`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch all images');
+    return redirect('/error?message=Failed to fetch all images');
   }
   const data = (await res.json()) as commonResType<imageDataType[]>;
   return data.result as imageDataType[];

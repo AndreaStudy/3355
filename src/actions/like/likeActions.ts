@@ -6,6 +6,7 @@ import {
   likedTFDataType,
 } from '@/types/ResponseTypes';
 import { revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export async function likeToggle(productUuid: string, token?: string) {
   'use server';
@@ -34,7 +35,7 @@ export async function getWishList(token?: string): Promise<string[]> {
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch likeslist');
+    return redirect('/error?message=Failed to fetch likeslist');
   }
 
   const data = (await res.json()) as commonResType<
@@ -60,7 +61,7 @@ export async function getLikeTF(
     }
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch like TF');
+    return redirect('/error?message=Failed to fetch like TF');
   }
 
   const data = (await res.json()) as commonResType<likedTFDataType>;

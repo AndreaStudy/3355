@@ -7,6 +7,7 @@ import {
   reviewDataType,
   reviewItemDataType,
 } from '@/types/ResponseTypes';
+import { redirect } from 'next/navigation';
 
 export async function getReviewList(
   productUuid: string,
@@ -20,7 +21,7 @@ export async function getReviewList(
   console.log(res);
   if (res.status === 404) return [];
   if (!res.ok) {
-    throw new Error('Failed to fetch');
+    return redirect('/error?message=Failed to fetch review list');
   }
   const data = (await res.json()) as commonResType<
     infiniteResultType<reviewDataType[]>
@@ -38,7 +39,7 @@ export async function getMediaReviewList(
     `${process.env.API_BASE_URL}/api/v1/review/allReviewsHaveMediaOfProduct?productUuid=${productUuid}&page=${pageNum}&pageSize=${pageSize}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch');
+    return redirect('/error?message=Failed to fetch media review list');
   }
 
   const data = (await res.json()) as commonResType<
@@ -56,7 +57,7 @@ export async function getReviewItem(
     `${process.env.API_BASE_URL}/api/v1/review/${reviewUuid}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch');
+    return redirect('/error?message=Failed to fetch review item');
   }
 
   const data = (await res.json()) as commonResType<reviewItemDataType>;
@@ -69,7 +70,7 @@ export async function getBestReviews(): Promise<productReviewUuidDataType[]> {
     `${process.env.API_BASE_URL}/api/v1/review/bestReviews`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch');
+    return redirect('/error?message=Failed to fetch best reviews');
   }
 
   const data = (await res.json()) as commonResType<

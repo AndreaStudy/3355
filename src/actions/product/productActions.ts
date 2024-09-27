@@ -11,6 +11,7 @@ import {
   productReviewSummaryDataType,
 } from '@/types/ResponseTypes';
 import { getMainImageData } from '../image/imageActions';
+import { redirect } from 'next/navigation';
 
 // 상품 기본 정보
 export async function getProductBasicInfo(
@@ -21,7 +22,7 @@ export async function getProductBasicInfo(
     `${process.env.API_BASE_URL}/api/v1/product/${productUuid}`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch product basic info');
+    return redirect('/error?message=Failed to fetch product basic info');
   }
 
   const data = (await res.json()) as commonResType<productBasicDataResType>;
@@ -47,7 +48,7 @@ export async function getProductPrice(
     `${process.env.API_BASE_URL}/api/v1/product/${productUuid}/productDetails`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch product price');
+    return redirect('/error?message=Failed to fetch product price');
   }
 
   const data = (await res.json()) as commonResType<productPriceDataType>;
@@ -67,7 +68,7 @@ export async function getProductDiscountPrice(
     return { discountType: '', discountValue: 0 };
   }
   if (!res.ok) {
-    throw new Error('Failed to fetch product discount info');
+    return redirect('/error?message=Failed to fetch product discount info');
   }
 
   const data = (await res.json()) as commonResType<productDiscountDataType>;
@@ -84,7 +85,7 @@ export async function getProductReviewSummary(
     `${process.env.API_BASE_URL}/api/v1/review/${productUuid}/reviewScore`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch product review summary');
+    return redirect('/error?message=Failed to fetch product review summary');
   }
 
   const data =
@@ -117,7 +118,7 @@ export async function getProductInfo(
       image: image,
     } as productInfoDataType;
   } catch (error) {
-    throw new Error('Failed to fetch product combination info');
+    return redirect('/error?message=Failed to fetch product combination info');
   }
 }
 
@@ -134,7 +135,7 @@ export async function getProductsByCategory(
   }
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error('Failed to fetch product list by category');
+    return redirect('/error?message=Failed to fetch product list by category');
   }
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
@@ -149,7 +150,7 @@ export async function getRecentProductList(): Promise<string[]> {
     `${process.env.API_BASE_URL}/api/v1/product/recentlyViewed`
   );
   if (!res.ok) {
-    throw new Error('Failed to fetch recent product list');
+    return redirect('/error?message=Failed to fetch recent product list');
   }
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
