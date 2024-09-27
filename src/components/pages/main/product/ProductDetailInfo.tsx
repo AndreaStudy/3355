@@ -42,8 +42,6 @@ function ProductDetailInfo({
           </button>
         </Link>
       </div>
-      {/* 상품 공지? */}
-      {/* 상품 상세 이미지 */}
       <ProductDetailImageList productInfo={productInfo} />
     </section>
   );

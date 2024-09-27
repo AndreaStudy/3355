@@ -1,13 +1,16 @@
+'use client';
 import Product from '@/components/cards/Product';
-import { productInfoDataType } from '@/types/ResponseTypes';
-import React from 'react';
+import ProductSkeleton from '@/components/skeletons/ProductSkeleton';
+import React, { Suspense } from 'react';
 
-function ProductList({ productList }: { productList: productInfoDataType[] }) {
+function ProductList({ productUuidList }: { productUuidList: string[] }) {
   return (
     <div className="flex flex-wrap justify-between p-4">
-      {productList.map((product) => {
+      {productUuidList.map((productUuid) => {
         return (
-          <Product key={product.productUuid} product={product} size="xl" />
+          <Suspense key={productUuid} fallback={<ProductSkeleton />}>
+            <Product productUuid={productUuid} size="xl" />
+          </Suspense>
         );
       })}
     </div>

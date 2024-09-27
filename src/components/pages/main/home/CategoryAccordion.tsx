@@ -20,7 +20,7 @@ async function CategoryAccordion({ main }: { main: topCategoryDataType }) {
   return (
     <div>
       {middleCategories.length === 0 ? (
-        <Link href={`/category?mainId=${main.id}`}>
+        <Link href={`/category?mainName=${main.topCategoryName}`}>
           <li className="py-4 border-b">{main.topCategoryName}</li>
         </Link>
       ) : (
@@ -34,7 +34,7 @@ async function CategoryAccordion({ main }: { main: topCategoryDataType }) {
                 <CategoryAccordionItem
                   key={middle.id}
                   middleCategoryId={middle.id}
-                  topCategoryId={main.id}
+                  topCategoryName={main.topCategoryName}
                 />
               );
             })}

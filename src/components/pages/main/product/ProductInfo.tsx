@@ -29,17 +29,21 @@ function ProductInfo({ productInfo }: { productInfo: productInfoDataType }) {
           <span>★</span>
           <span className="pl-1 font-bold">{productInfo.reviewscoreAvg}</span>
         </div>
-        <Link
-          href={`/product/${productInfo.productUuid}/reviewall`}
-          scroll={false}
-        >
-          <div className="flex items-center">
-            <span className="underline underline-offset-1">
-              {productInfo.reviewcount}건 리뷰
-            </span>
-            <ArrowRightIcon fill="black" width={16} height={16} />
-          </div>
-        </Link>
+        {productInfo.reviewcount === 0 ? (
+          <span>{productInfo.reviewcount}건 리뷰</span>
+        ) : (
+          <Link
+            href={`/product/${productInfo.productUuid}/reviewall`}
+            scroll={false}
+          >
+            <div className="flex items-center">
+              <span className="underline underline-offset-1">
+                {productInfo.reviewcount}건 리뷰
+              </span>
+              <ArrowRightIcon fill="black" width={16} height={16} />
+            </div>
+          </Link>
+        )}
       </div>
     </section>
   );

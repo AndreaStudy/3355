@@ -1,4 +1,5 @@
 'use client';
+import { addCartItem } from '@/actions/cart/cartAction';
 import {
   DrawerContent,
   DrawerDescription,
@@ -9,17 +10,19 @@ import React, { useState } from 'react';
 
 function ProductBottomNavbarDrawer({
   type,
+  productUuid,
   productName,
   productPrice,
 }: {
   type: number;
+  productUuid: string;
   productName: string;
   productPrice: number;
 }) {
   const [productCount, setProductCount] = useState(1);
   // todo: 상품에 대해서 1회 주문 당 상품 구매 제한 개수 alert
   const handleProductAdd = () => {
-    if (productCount < 5) {
+    if (productCount < 3) {
       setProductCount((prev) => prev + 1);
     }
   };
@@ -27,6 +30,9 @@ function ProductBottomNavbarDrawer({
     if (productCount > 1) {
       setProductCount((prev) => prev - 1);
     }
+  };
+  const addCart = async (productUuid: string, quantity: number) => {
+    await addCartItem(productUuid, quantity);
   };
   return (
     <DrawerContent>
@@ -70,7 +76,12 @@ function ProductBottomNavbarDrawer({
           ) : null}
         </div>
         <div className="w-full h-14">
-          <button className="w-1/2 h-full bg-black text-white">장바구니</button>
+          <button
+            className="w-1/2 h-full bg-black text-white"
+            // onClick={() => addCart(productUuid, productCount)}
+          >
+            장바구니
+          </button>
           <button className="w-1/2 h-full bg-starbucks-red text-white">
             {type === 1 ? '바로 선물하기' : '바로구매'}
           </button>

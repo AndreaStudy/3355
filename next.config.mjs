@@ -6,6 +6,7 @@ const nextConfig = {
       'succ.ssgcdn.com',
       'simg.ssgcdn.com',
       'sitem.ssgcdn.com',
+      'sui.ssgcdn.com',
     ],
   },
   webpack: (config) => {

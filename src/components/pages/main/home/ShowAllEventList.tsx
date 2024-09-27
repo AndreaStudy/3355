@@ -1,28 +1,28 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseIcon from '/public/assets/images/icons/closeIcon.svg';
 import Link from 'next/link';
 import FitImage from '@/components/ui/FitImage';
-import { eventInfoDataType } from '@/types/ResponseTypes';
+import { eventItemDataType, eventUuidDataType } from '@/types/ResponseTypes';
+import { getEventItem } from '@/actions/event/eventActions';
+import EventItem from '@/components/cards/EventItem';
 
 function ShowAllEventList({
-  eventInfoList,
+  eventUuidList,
   handleShowAll,
-  currentIndex,
 }: {
-  eventInfoList: eventInfoDataType[];
+  eventUuidList: eventUuidDataType[];
   handleShowAll: () => void;
-  currentIndex: number;
 }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [currentIndex]);
+  }, []);
 
   return (
-    <div className="flex flex-col fixed top-0 left-0 w-full h-full overflow-y-auto z-50">
+    <div className="flex flex-col fixed top-0 left-0 w-full h-full min-h-screen bg-white overflow-y-auto z-50">
       <header className="fixed w-full bg-white text-center font-bold py-4 items-center">
         <h1>전체보기</h1>
         <CloseIcon
@@ -32,19 +32,9 @@ function ShowAllEventList({
         />
       </header>
       <div className="mt-14">
-        {eventInfoList.map((eventInfo) => {
-          return (
-            <Link
-              key={eventInfo.eventUuid}
-              href={`/event/${eventInfo.eventUuid}`}
-            >
-              <FitImage
-                src={eventInfo.eventThumbnailPath}
-                alt={eventInfo.eventThumbnailAlt}
-              />
-            </Link>
-          );
-        })}
+        {eventUuidList.map((eventUuid) => (
+          <EventItem key={eventUuid.promotionUuid} eventUuid={eventUuid} />
+        ))}
       </div>
     </div>
   );

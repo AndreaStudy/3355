@@ -1,26 +1,32 @@
-import { productsByEventDatas } from '@/datas/main/productDatas';
-import { productByEventType } from '@/types/main/productType';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 import Product from '../../../cards/Product';
+import {
+  getEventName,
+  getProductUuidListByEvent,
+} from '@/actions/event/eventActions';
+import { eventUuidDataType } from '@/types/ResponseTypes';
+import ProductSkeleton from '@/components/skeletons/ProductSkeleton';
 
 async function ProductsByEvent({
-  eventItem,
+  eventUuid,
 }: {
-  eventItem: productByEventType;
+  eventUuid: eventUuidDataType;
 }) {
-  //todo 하트 아이콘 사용자에 따라
-
+  const productUuidList = await getProductUuidListByEvent(
+    eventUuid.promotionUuid
+  );
+  const eventName = await getEventName(eventUuid.promotionUuid);
   return (
     <section className="w-full pt-10 px-4">
-      <h1 className="text-2xl font-bold">{eventItem.eventName}</h1>
+      <h1 className="text-2xl font-bold">{eventName.promotionName}</h1>
       <div className="pt-4 overflow-x-auto flex gap-4">
-        {/* {eventItem.productList.map((product) => {
+        {productUuidList.map((productUuid) => {
           return (
-            <Product key={product.productId} product={product} size="md" />
+            <Suspense key={productUuid} fallback={<ProductSkeleton />}>
+              <Product productUuid={productUuid} size="md" />
+            </Suspense>
           );
-        })} */}
+        })}
       </div>
     </section>
   );

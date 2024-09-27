@@ -1,30 +1,22 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import {
-  productInfoDataType,
-  topCategoryDataType,
-} from '@/types/ResponseTypes';
+import { topCategoryDataType } from '@/types/ResponseTypes';
 import CategoryFilter from './CategoryFilter';
 import ProductList from '../product/ProductList';
-import {
-  getProductInfoListByUuid,
-  getProductsByCategory,
-} from '@/actions/product/productActions';
+import { getProductsByCategory } from '@/actions/product/productActions';
 
 function StarbucksBest({
   categoryList,
 }: {
   categoryList: topCategoryDataType[];
 }) {
-  // todo: 무한 스크롤 (최대 50개까지)
+  // todo: 무한 스크롤
   const [selected, setSelected] = useState<string>('텀블러/보온병');
-  const [productList, setProductList] = useState<productInfoDataType[]>([]);
+  const [productUuidList, setProductUuidList] = useState<string[]>([]);
   useEffect(() => {
     const getData = async () => {
-      const productUuidList: string[] = await getProductsByCategory(selected);
-      const data: productInfoDataType[] =
-        await getProductInfoListByUuid(productUuidList);
-      setProductList(data);
+      const data = await getProductsByCategory(selected);
+      setProductUuidList(data);
     };
     getData();
   }, [selected]);
@@ -40,7 +32,13 @@ function StarbucksBest({
         selected={selected}
         setSelected={setSelected}
       />
-      <ProductList productList={productList} />
+      {productUuidList.length > 0 ? (
+        <ProductList productUuidList={productUuidList} />
+      ) : (
+        <p className="px-4 pt-10 pb-8 text-center text-lg font-bold">
+          상품을 준비중입니다.
+        </p>
+      )}
     </section>
   );
 }

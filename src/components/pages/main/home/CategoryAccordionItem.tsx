@@ -5,24 +5,26 @@ import React from 'react';
 
 async function CategoryAccordionItem({
   middleCategoryId,
-  topCategoryId,
+  topCategoryName,
 }: {
   middleCategoryId: number;
-  topCategoryId: number;
+  topCategoryName: string;
 }) {
   const bottomCategories: bottomCategoryDataType[] =
     await getBottomCategories(middleCategoryId);
 
   return (
     <div className="flex flex-col gap-3 bg-[#F5F5F5] p-6 border-t text-[#444444]">
-      <Link href={`/category?mainId=${topCategoryId}`}>
+      <Link href={`/category?mainName=${topCategoryName}`}>
         <span className="pb-1 border-b-2 border-[#777777]">전체보기 +</span>
       </Link>
       <ul className="flex flex-col gap-3 pt-2">
         {bottomCategories.map((sub) => {
           return (
             <li key={sub.id}>
-              <Link href={`/category?mainId=${topCategoryId}&subId=${sub.id}`}>
+              <Link
+                href={`/category?mainName=${topCategoryName}&subName=${sub.bottomCategoryName}`}
+              >
                 {sub.bottomCategoryName}
               </Link>
             </li>

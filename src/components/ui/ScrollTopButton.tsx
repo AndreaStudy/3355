@@ -24,7 +24,7 @@ function ScrollTopButton() {
 
   return (
     <div
-      className={`bg-white bg-opacity-90 fixed bottom-[75px] right-4 z-20 p-3 rounded-full ${isTop && 'hidden'}`}
+      className={`bg-white bg-opacity-90 fixed bottom-[75px] right-4 z-10 p-3 rounded-full ${isTop && 'hidden'}`}
       onClick={handleClick}
     >
       <ChevronUp

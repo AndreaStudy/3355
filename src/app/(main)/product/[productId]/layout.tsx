@@ -22,7 +22,8 @@ function Layout({
         <div className="w-full h-full bg-starbucks-lightgray">
           {productinfo}
           {reviews}
-          {recommend}
+          {/* todo: DB 상품 들어온 후에 주석 제거 */}
+          {/* {recommend} */}
         </div>
         {children}
       </ScrollProvider>

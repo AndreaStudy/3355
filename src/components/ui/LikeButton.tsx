@@ -17,18 +17,11 @@ function LikeButton({
   const [isLike, setIsLike] = useState(false);
 
   // todo: 상품 uuid에 따라 fetch
+  // todo: 회원인 경우에만(token을 likeToggle에 같이 보내기) 각 상품 uuid에 따라 찜 여부 판단
   const handleClick = () => {
     setIsLike(!isLike);
     likeToggle(productUuid);
   };
-  // todo: 회원인 경우에만(if로 조건문 추가) 각 상품 uuid에 따라 찜 여부 판단
-  // useEffect(() => {
-  //   const getData = async (uuid: string) => {
-  //     const data: likedTFDataType = await getLikeTF(uuid);
-  //     setIsLike(data.liked);
-  //   };
-  //   getData(productUuid);
-  // }, []);
   return (
     <div onClick={handleClick}>
       {isLike ? (

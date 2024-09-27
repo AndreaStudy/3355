@@ -1,11 +1,7 @@
 import { getProductInfo } from '@/actions/product/productActions';
 import { getReviewItem } from '@/actions/review/reviewActions';
 import FitImage from '@/components/ui/FitImage';
-import {
-  productInfoDataType,
-  productReviewUuidDataType,
-  reviewItemDataType,
-} from '@/types/ResponseTypes';
+import { productReviewUuidDataType } from '@/types/ResponseTypes';
 import { StarIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -15,17 +11,14 @@ async function ReviewBestItem({
 }: {
   review: productReviewUuidDataType;
 }) {
-  const productInfo: productInfoDataType = await getProductInfo(
-    review.productUuid
-  );
-  const reviewInfo: reviewItemDataType = await getReviewItem(review.reviewUuid);
+  const productInfo = await getProductInfo(review.productUuid);
+  const reviewInfo = await getReviewItem(review.reviewUuid);
   return (
     <div className="w-80 min-w-80 h-auto mr-4 flex gap-1 ">
       <Link href={`/product/${review.productUuid}`} className="w-2/5">
         <FitImage
-          // src={productInfo.imageUrl}
-          src="https://sitem.ssgcdn.com/10/30/71/item/1000355713010_i1_500.jpg"
-          alt={productInfo.productName}
+          src={productInfo.image.s3url}
+          alt={productInfo.image.imageName}
         />
       </Link>
       <div className="w-3/5 flex flex-col gap-0.5 pl-2">

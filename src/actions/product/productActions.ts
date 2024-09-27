@@ -2,14 +2,13 @@
 
 import {
   commonResType,
-  imageDataType,
   infiniteResultType,
+  productBasicDataResType,
   productBasicDataType,
   productDiscountDataType,
   productInfoDataType,
   productPriceDataType,
   productReviewSummaryDataType,
-  productUuidDataType,
 } from '@/types/ResponseTypes';
 import { getMainImageData } from '../image/imageActions';
 
@@ -25,8 +24,18 @@ export async function getProductBasicInfo(
     throw new Error('Failed to fetch product basic info');
   }
 
-  const data = (await res.json()) as commonResType<productBasicDataType>;
-  return data.result as productBasicDataType;
+  const data = (await res.json()) as commonResType<productBasicDataResType>;
+  let imgList;
+  if (data.result.productDescription !== null) {
+    imgList = data.result.productDescription.split(',');
+  } else {
+    imgList = [''];
+  }
+  return {
+    productName: data.result.productName,
+    productDescription: imgList,
+    productInfo: data.result.productInfo,
+  } as productBasicDataType;
 }
 
 // 가격만 조회
@@ -80,6 +89,11 @@ export async function getProductReviewSummary(
 
   const data =
     (await res.json()) as commonResType<productReviewSummaryDataType>;
+  if (data.result === null)
+    return {
+      reviewscoreAvg: 0,
+      reviewcount: 0,
+    };
   return data.result as productReviewSummaryDataType;
 }
 
@@ -88,55 +102,22 @@ export async function getProductInfo(
   productUuid: string
 ): Promise<productInfoDataType> {
   try {
-    // todo: 백엔드 api 수정 후 thumbnail에 대한 것 추가
-    const [basicInfo, price, discount, reviewSummary] = await Promise.all([
+    const [basicInfo, price, reviewSummary, image] = await Promise.all([
       getProductBasicInfo(productUuid),
       getProductPrice(productUuid),
-      getProductDiscountPrice(productUuid),
       getProductReviewSummary(productUuid),
-      // getMainImageData(productUuid)
+      getMainImageData(productUuid),
     ]);
 
     return {
       productUuid: productUuid,
       ...basicInfo,
       ...price,
-      ...discount,
       ...reviewSummary,
+      image: image,
     } as productInfoDataType;
   } catch (error) {
     throw new Error('Failed to fetch product combination info');
-  }
-}
-
-// 각 상품 정보 조합 -> 리스트
-export async function getProductInfoList(
-  productUuids: productUuidDataType[]
-): Promise<productInfoDataType[]> {
-  try {
-    // todo: 백엔드 api 수정 후 thumbnail에 대한 것 추가
-    const productDetailsPromises = productUuids.map(async (product) => {
-      const [basicInfo, price, discount, reviewSummary] = await Promise.all([
-        getProductBasicInfo(product.productUuid),
-        getProductPrice(product.productUuid),
-        getProductDiscountPrice(product.productUuid),
-        getProductReviewSummary(product.productUuid),
-        // getMainImageData(product.productUuid),
-      ]);
-
-      return {
-        productUuid: product.productUuid,
-        ...basicInfo,
-        ...price,
-        ...discount,
-        ...reviewSummary,
-      } as productInfoDataType;
-    });
-
-    const productInfoList = await Promise.all(productDetailsPromises);
-    return productInfoList;
-  } catch (error) {
-    throw new Error('Failed to fetch product combination list info');
   }
 }
 
@@ -158,38 +139,8 @@ export async function getProductsByCategory(
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
-  return data.result?.content as string[];
-}
-
-// 객체 형식이 아닌 string으로 받아올 때
-export async function getProductInfoListByUuid(
-  productUuids: string[]
-): Promise<productInfoDataType[]> {
-  try {
-    // todo: 백엔드 api 수정 후 thumbnail에 대한 것 추가
-    const productDetailsPromises = productUuids.map(async (uuid) => {
-      const [basicInfo, price, discount, reviewSummary] = await Promise.all([
-        getProductBasicInfo(uuid),
-        getProductPrice(uuid),
-        getProductDiscountPrice(uuid),
-        getProductReviewSummary(uuid),
-        // getMainImageData(uuid),
-      ]);
-
-      return {
-        productUuid: uuid,
-        ...basicInfo,
-        ...price,
-        ...discount,
-        ...reviewSummary,
-      } as productInfoDataType;
-    });
-
-    const productInfoList = await Promise.all(productDetailsPromises);
-    return productInfoList;
-  } catch (error) {
-    throw new Error('Failed to fetch product combination info by string uuid');
-  }
+  if (data.result === null) return [];
+  return data.result.content as string[];
 }
 
 export async function getRecentProductList(): Promise<string[]> {
@@ -203,5 +154,5 @@ export async function getRecentProductList(): Promise<string[]> {
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
-  return data.result?.content as string[];
+  return data.result.content as string[];
 }

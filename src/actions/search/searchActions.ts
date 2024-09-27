@@ -21,5 +21,5 @@ export async function getSearchResults({
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
-  return data.result?.content as string[];
+  return data.result.content as string[];
 }

@@ -2,7 +2,7 @@
 import CartStaticIcon from '@/components/ui/CartStaticIcon';
 import { ChevronLeft } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 function Page() {
   const router = useRouter();

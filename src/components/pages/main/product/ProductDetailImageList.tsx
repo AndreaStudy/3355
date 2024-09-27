@@ -21,9 +21,15 @@ function ProductDetailImageList({
     <div
       className={`relative ${isExpanded ? 'h-auto pb-20' : 'h-[1400px] overflow-hidden'}`}
     >
-      {/* {productInfo.productDescriptionImgList.map((infoImg, index) => {
-        return <FitImage key={index} src={infoImg} alt={`infoImg${index}`} />;
-      })} */}
+      {productInfo.productDescription.map((infoImg, index) => {
+        return (
+          <FitImage
+            key={index}
+            src={infoImg}
+            alt={`${productInfo.productName}-infoImg${index}`}
+          />
+        );
+      })}
       <div
         className="absolute w-full -bottom-1 h-10 flex justify-center items-center bg-white shadow-[10px_0px_10px_10px_rgba(255,255,255,0.95)]"
         onClick={toggleExpanded}

@@ -1,6 +1,7 @@
 import {
   getBottomCategories,
   getMiddleCategories,
+  getTopCategories,
 } from '@/actions/category/categoryActions';
 import {
   Breadcrumb,
@@ -24,39 +25,39 @@ import React from 'react';
 
 async function CategoryBreadcrumb({
   topCategories,
-  mainId,
-  subId,
+  mainName,
+  subName,
 }: {
   topCategories: topCategoryDataType[];
-  mainId: number;
-  subId?: number;
+  mainName: string;
+  subName?: string;
 }) {
-  const topCategoryName = topCategories.map((c) => {
-    if (c.id == mainId) return c.topCategoryName;
-  });
-  const middleCategories: middleCategoryDataType[] = (
-    await getMiddleCategories(mainId)
-  ).filter((category) => category.middleCategoryName === '카테고리');
+  const topCategoryId: number = (await getTopCategories()).find(
+    (c) => c.topCategoryName === mainName
+  )!.id;
+  const middleCategories = (await getMiddleCategories(topCategoryId)).filter(
+    (category) => category.middleCategoryName === '카테고리'
+  );
   const subCategories =
     middleCategories && middleCategories.length > 0
       ? await getBottomCategories(middleCategories[0].id)
       : [];
-  const subCategoryName = subCategories.map((c) => {
-    if (c.id == subId) return c.bottomCategoryName;
-  });
   return (
     <Breadcrumb className="w-full px-4 py-2 border-b">
       <BreadcrumbList>
         <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-starbucks-green font-bold">
-              {topCategoryName}
+              {mainName}
               <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               {topCategories.map((c) => {
                 return (
-                  <Link key={c.id} href={`/category?mainId=${c.id}`}>
+                  <Link
+                    key={c.id}
+                    href={`/category?mainName=${c.topCategoryName}`}
+                  >
                     <DropdownMenuItem>{c.topCategoryName}</DropdownMenuItem>
                   </Link>
                 );
@@ -72,7 +73,7 @@ async function CategoryBreadcrumb({
             <BreadcrumbItem>
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-1 text-starbucks-green font-bold">
-                  {subId ? subCategoryName : '전체보기'}
+                  {!subName ? '전체보기' : subName}
                   <ChevronDown className="h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
@@ -80,7 +81,7 @@ async function CategoryBreadcrumb({
                     return (
                       <Link
                         key={c.id}
-                        href={`/category?mainId=${mainId}&subId=${c.id}`}
+                        href={`/category?mainName=${mainName}&subName=${c.bottomCategoryName}`}
                       >
                         <DropdownMenuItem>
                           {c.bottomCategoryName}

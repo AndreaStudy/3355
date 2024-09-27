@@ -25,7 +25,7 @@ function SearchInput() {
         type="text"
         className="relative w-full h-10 px-4 text-sm rounded-full bg-[#F5F5F5]"
         placeholder="원하시는 상품을 검색해보세요."
-        value={searchValue}
+        value={searchValue || ''}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
       />

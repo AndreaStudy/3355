@@ -1,11 +1,14 @@
 'use client';
-import { getMiddleCategories } from '@/actions/category/categoryActions';
+import {
+  getMiddleCategories,
+  getTopCategories,
+} from '@/actions/category/categoryActions';
 import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
 import { middleCategoryDataType } from '@/types/ResponseTypes';
 import React, { useEffect, useState } from 'react';
 import FilterDrawer from './FilterDrawer';
 
-function FilterBadgeList({ mainId }: { mainId: number }) {
+function FilterBadgeList({ mainName }: { mainName: string }) {
   const [badgeList, setBadgeList] = useState<middleCategoryDataType[]>([]);
   const [activeTab, setActiveTab] = useState<number | undefined>();
   const handleActiveTab = (tabId: number) => {
@@ -13,13 +16,16 @@ function FilterBadgeList({ mainId }: { mainId: number }) {
   };
   useEffect(() => {
     const getData = async () => {
+      const mainId = (await getTopCategories()).find(
+        (c) => c.topCategoryName === mainName
+      )!.id;
       const data = (await getMiddleCategories(mainId)).filter(
         (middle) => middle.middleCategoryName !== '카테고리'
       );
       setBadgeList(data);
     };
     getData();
-  }, [mainId]);
+  }, [mainName]);
   return (
     <ul className="flex gap-3 text-xs px-4 py-2 text-gray-500">
       <Drawer>

@@ -58,6 +58,7 @@ function ProductBottomNavbar() {
         {productInfo && productPrice && (
           <ProductBottomNavbarDrawer
             type={type}
+            productUuid={productUuid}
             productName={productInfo.productName}
             productPrice={productPrice.price}
           />

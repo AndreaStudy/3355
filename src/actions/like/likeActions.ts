@@ -2,10 +2,8 @@
 
 import {
   commonResType,
-  infiniteResType,
   infiniteResultType,
   likedTFDataType,
-  wishListDataType,
 } from '@/types/ResponseTypes';
 import { revalidateTag } from 'next/cache';
 

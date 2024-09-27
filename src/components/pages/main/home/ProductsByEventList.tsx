@@ -1,14 +1,20 @@
 import React from 'react';
+import { eventUuidDataType } from '@/types/ResponseTypes';
 import ProductsByEvent from './ProductsByEvent';
-import { productsByEventDatas } from '@/datas/main/productDatas';
 
-async function ProductsByEventList() {
-  const eventList = await productsByEventDatas;
+function ProductsByEventList({
+  eventUuidList,
+}: {
+  eventUuidList: eventUuidDataType[];
+}) {
   return (
     <div>
-      {eventList.map((eventItem) => {
+      {eventUuidList.slice(0, 3).map((eventUuid) => {
         return (
-          <ProductsByEvent eventItem={eventItem} key={eventItem.eventId} />
+          <ProductsByEvent
+            key={eventUuid.promotionUuid}
+            eventUuid={eventUuid}
+          />
         );
       })}
     </div>
