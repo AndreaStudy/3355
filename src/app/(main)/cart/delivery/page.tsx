@@ -14,7 +14,7 @@ import React from 'react';
 
 export default async function Page() {
   const session = await getServerSession(options);
-  const isAuth = session?.user ? true : false;
+  const isAuth = session?.user.accessToken ? true : false;
   const count = isAuth ? await getCartCount(session?.user.accessToken) : 0;
   const deliveries: deliveryDataType[] = (await getDeliveryListData(
     session?.user?.accessToken

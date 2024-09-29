@@ -7,7 +7,7 @@ import React from 'react';
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(options);
-  const isAuth = session?.user ? true : false;
+  const isAuth = session?.user.accessToken ? true : false;
   const count = isAuth ? await getCartCount(session?.user.accessToken) : 0;
   return (
     <>

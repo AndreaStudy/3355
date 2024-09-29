@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import CartBlackIcon from '/public/assets/images/icons/cartBlackIcon.svg';
 import LikeButton from '@/components/ui/LikeButton';
 import FitImage from '../ui/FitImage';
@@ -12,31 +12,47 @@ import {
 } from '@/actions/product/productActions';
 import { productInfoDataType } from '@/types/ResponseTypes';
 import { getMainImageData } from '@/actions/image/imageActions';
+import Image from 'next/image';
 
-function Product({ productUuid, size }: { productUuid: string; size: string }) {
-  const [productInfo, setProductInfo] = useState<productInfoDataType>();
-  useEffect(() => {
-    const getData = async () => {
-      const [basicInfo, price, reviewSummary, image] = await Promise.all([
-        getProductBasicInfo(productUuid),
-        getProductPrice(productUuid),
-        getProductReviewSummary(productUuid),
-        getMainImageData(productUuid),
-      ]);
-      const data = {
-        productUuid: productUuid,
-        ...basicInfo,
-        ...price,
-        ...reviewSummary,
-        image: image,
-      } as productInfoDataType;
-      setProductInfo(data);
-    };
-    getData();
-  }, []);
-  return (
-    <>
-      {productInfo && (
+const Product = React.memo(
+  ({ productUuid, size }: { productUuid: string; size: string }) => {
+    const [productInfo, setProductInfo] = useState<productInfoDataType | null>(
+      null
+    );
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+      const getData = async () => {
+        setLoading(true);
+        try {
+          const [basicInfo, price, reviewSummary, image] = await Promise.all([
+            getProductBasicInfo(productUuid),
+            getProductPrice(productUuid),
+            getProductReviewSummary(productUuid),
+            getMainImageData(productUuid),
+          ]);
+
+          const data = {
+            productUuid: productUuid,
+            ...basicInfo,
+            ...price,
+            ...reviewSummary,
+            image: image,
+          } as productInfoDataType;
+          setProductInfo(data);
+        } catch (error) {
+          console.error('Error fetching product data:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getData();
+    }, [productUuid]);
+
+    const productDetails = useMemo(() => {
+      if (!productInfo) return null;
+
+      return (
         <div
           className={`h-auto pb-4 flex flex-col items-center gap-2 ${size === 'md' ? 'w-36 min-w-36' : size === 'lg' ? 'w-[45%]' : 'w-[167px] min-w-[167px]'}`}
         >
@@ -63,7 +79,7 @@ function Product({ productUuid, size }: { productUuid: string; size: string }) {
               <p className="text-base font-bold text-black">
                 {productInfo.price.toLocaleString()}원
               </p>
-              {productInfo.reviewcount > 0 ? (
+              {productInfo.reviewcount > 0 && (
                 <div className="flex gap-1 items-center text-[#777777] text-xs">
                   <StarIcon
                     width="11"
@@ -75,13 +91,33 @@ function Product({ productUuid, size }: { productUuid: string; size: string }) {
                   <div className="border-solid h-3/4 w-[1px] bg-gray-300"></div>
                   <span>{productInfo.reviewcount}건</span>
                 </div>
-              ) : null}
+              )}
             </Link>
           </div>
         </div>
-      )}
-    </>
-  );
-}
+      );
+    }, [productInfo]);
+
+    return (
+      <>
+        {loading ? (
+          <div className="w-[167px] h-[167px]">
+            <Image
+              src="/assets/images/gifs/loading.gif"
+              alt="loading"
+              width={167}
+              height={167}
+            />
+          </div>
+        ) : (
+          productDetails
+        )}
+      </>
+    );
+  }
+);
+
+// displayName 추가
+Product.displayName = 'Product';
 
 export default Product;

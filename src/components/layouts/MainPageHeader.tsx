@@ -7,7 +7,7 @@ import { getCartCount } from '@/actions/cart/cartAction';
 
 async function MainPageHeader() {
   const session = await getServerSession(options);
-  const isAuth = session?.user ? true : false;
+  const isAuth = session?.user.accessToken ? true : false;
   const count = isAuth ? await getCartCount(session?.user.accessToken) : 0;
   return (
     <header>
