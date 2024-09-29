@@ -10,6 +10,7 @@ import {
 import { InfoIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { payKakao } from '@/actions/pay/payAction';
 
 function ProductBottomNavbarDrawer({
   type,
@@ -47,6 +48,19 @@ function ProductBottomNavbarDrawer({
       const res = await cartUpdate(token, productUuid, productCount);
       if (res) {
         setNotification(`${productName}이(가) 장바구니에 담겼습니다.`);
+      }
+    } else {
+      alert('회원가입이 필요합니다.');
+      router.push('/sign-in');
+    }
+  };
+
+  const handlePay = async () => {
+    if (isAuth) {
+      const ready = await payKakao(token, productPrice * productCount);
+      if (ready.next_redirect_pc_url) {
+        sessionStorage.setItem('tid', ready.tid);
+        router.push(ready.next_redirect_pc_url);
       }
     } else {
       alert('회원가입이 필요합니다.');
@@ -102,7 +116,10 @@ function ProductBottomNavbarDrawer({
           >
             장바구니
           </button>
-          <button className="w-1/2 h-full bg-starbucks-red text-white">
+          <button
+            onClick={handlePay}
+            className="w-1/2 h-full bg-starbucks-red text-white"
+          >
             {type === 1 ? '바로 선물하기' : '바로구매'}
           </button>
         </div>
