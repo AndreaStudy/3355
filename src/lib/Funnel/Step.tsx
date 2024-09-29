@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FunnelContext } from './FunnelProvider';
+import { FunnelContext } from './Funnel';
 
 interface StepProps {
   children: React.ReactNode;

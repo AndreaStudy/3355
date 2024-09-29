@@ -9,7 +9,7 @@ import SignUpEmailField from './SignUpEmailField';
 import { useRouter } from 'next/navigation';
 import SignUpIdField from './SignUpIdField';
 import useFunnel from '@/lib/Funnel/useFunnel';
-import FunnelProvider from '@/lib/Funnel/FunnelProvider';
+import Funnel from '@/lib/Funnel/Funnel';
 import { createAuth } from '@/actions/auth/signUpAction';
 
 const steps = ['TermsAgree', 'InputEmail', 'InputId', 'SignUpInfo'];
@@ -40,20 +40,20 @@ function SignUpForm({ items }: { items: signUpIntroDataType[] }) {
         className="w-full max-w-md rounded-lg mx-auto mt-10 text-black"
         onSubmit={handleSubmit}
       >
-        <FunnelProvider step={step}>
-          <FunnelProvider.Step name="TermsAgree">
+        <Funnel step={step}>
+          <Funnel.Step name="TermsAgree">
             <SignUpIntroField items={items} onNext={onNextStep} />
-          </FunnelProvider.Step>
-          <FunnelProvider.Step name="InputEmail">
+          </Funnel.Step>
+          <Funnel.Step name="InputEmail">
             <SignUpEmailField onNext={onNextStep} formData={formData} />
-          </FunnelProvider.Step>
-          <FunnelProvider.Step name="InputId">
+          </Funnel.Step>
+          <Funnel.Step name="InputId">
             <SignUpIdField onNext={onNextStep} formData={formData} />
-          </FunnelProvider.Step>
-          <FunnelProvider.Step name="SignUpInfo">
+          </Funnel.Step>
+          <Funnel.Step name="SignUpInfo">
             <SignUpField formData={formData} />
-          </FunnelProvider.Step>
-        </FunnelProvider>
+          </Funnel.Step>
+        </Funnel>
       </form>
     </>
   );

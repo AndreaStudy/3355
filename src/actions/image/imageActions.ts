@@ -9,7 +9,7 @@ export async function getMainImageData(uuid: string): Promise<imageDataType> {
     `${process.env.API_BASE_URL}/api/v1/image/${uuid}/mainMedia`
   );
 
-  if (res.status === 404)
+  if (res.status === 404) {
     return {
       s3url: '',
       imageName: '',
@@ -17,11 +17,18 @@ export async function getMainImageData(uuid: string): Promise<imageDataType> {
       imageUuid: '',
       otherUuid: null,
     };
+  }
+  const data = (await res.json()) as commonResType<imageDataType>;
+  const trimmedS3url = data.result.s3url.trimStart();
+
   if (!res.ok) {
     return redirect('/error?message=Image_fetch_error');
   }
-  const data = (await res.json()) as commonResType<imageDataType>;
-  return data.result as imageDataType;
+
+  return {
+    ...data.result,
+    s3url: trimmedS3url,
+  } as imageDataType;
 }
 
 // 이미지 목록 조회

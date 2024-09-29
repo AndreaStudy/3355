@@ -10,7 +10,7 @@ import FindPwLayout from './find-pw/FindPwLayout';
 import { findPwDataType } from '@/types/ResponseTypes';
 import { findId, findPw } from '@/actions/auth/signUpAction';
 import useFunnel from '@/lib/Funnel/useFunnel';
-import FunnelProvider from '@/lib/Funnel/FunnelProvider';
+import Funnel from '@/lib/Funnel/Funnel';
 
 const steps = ['findAuth', 'foundId', 'foundPw'];
 
@@ -40,20 +40,20 @@ function Authentication({ method }: { method: AuthenticationMethodType }) {
   };
 
   return (
-    <FunnelProvider step={step}>
-      <FunnelProvider.Step name="findAuth">
+    <Funnel step={step}>
+      <Funnel.Step name="findAuth">
         <Layout variant="authentication">
           <SignUpAuthHeader method={method} />
           <FindAuthForm method={method} handleFindAuth={handleFindAuth} />
         </Layout>
-      </FunnelProvider.Step>
-      <FunnelProvider.Step name="foundId">
+      </Funnel.Step>
+      <Funnel.Step name="foundId">
         <FindIdLayout name={name} />
-      </FunnelProvider.Step>
-      <FunnelProvider.Step name="foundPw">
+      </Funnel.Step>
+      <Funnel.Step name="foundPw">
         <FindPwLayout data={data} />
-      </FunnelProvider.Step>
-    </FunnelProvider>
+      </Funnel.Step>
+    </Funnel>
   );
 }
 
