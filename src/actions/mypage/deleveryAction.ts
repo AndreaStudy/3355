@@ -15,6 +15,7 @@ export async function getBaseDeliveryData(
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
+    cache: 'no-cache',
   });
   if (!res.ok) {
     return redirect('/error?message=Failed to fetch base delivery item');
@@ -36,6 +37,7 @@ export async function getDeliveryData(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+      cache: 'no-cache',
     }
   );
   if (!res.ok) {
@@ -184,6 +186,7 @@ export async function getDeliveryTermData(token: string): Promise<boolean> {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+      cache: 'no-cache',
     }
   );
   if (!res.ok) {
@@ -199,7 +202,7 @@ export async function postToggleDeliveryTermAction(token: string) {
   const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/shipping/agreeCancel`,
     {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,

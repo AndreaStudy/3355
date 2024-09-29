@@ -10,7 +10,7 @@ async function MyReviewContent() {
 
   return (
     <>
-      {myReviewList.length > 0 ? (
+      {myReviewList ? (
         <ul className="px-6">
           {myReviewList.map((myReview, index) => (
             <React.Fragment key={myReview.reviewUuid}>

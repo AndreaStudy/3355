@@ -84,7 +84,8 @@ function SignUpIdField({
     } else {
       alert('중복 확인 요청에 실패했습니다.');
     }
-    formData.set('id', inputValues.id);
+
+    formData.set('id', id);
   };
 
   return (

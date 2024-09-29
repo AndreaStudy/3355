@@ -1,6 +1,7 @@
 import {
   deleteDeliveryData,
   getDeliveryListData,
+  getDeliveryTermData,
 } from '@/actions/mypage/deleveryAction';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import MyPageHeader from '@/components/layouts/MyPageHeader';
@@ -17,7 +18,8 @@ async function Page() {
   const deliveries: deliveryDataType[] = (await getDeliveryListData(
     session?.user?.accessToken
   )) as deliveryDataType[];
-
+  const agree: boolean = await getDeliveryTermData(session?.user?.accessToken);
+  console.log('------', agree);
   const baseDeliveries = deliveries.filter((delivery) => delivery.baseAddress);
   const otherDeliveries = deliveries.filter(
     (delivery) => !delivery.baseAddress
@@ -46,6 +48,26 @@ async function Page() {
             <span>새 배송지 추가</span>
           </Button>
         </Link>
+        {/* {agree ? (
+          <Link href="delivery/add">
+            <Button
+              size="submit"
+              className="flex justify-center items-center gap-x-2"
+            >
+              <Plus className="inline-block" />
+              <span>새 배송지 추가</span>
+            </Button>
+          </Link>
+        ) : (
+          <Link href="term-policy">
+            <Button
+              size="submit"
+              className="flex justify-center items-center gap-x-2"
+            >
+              <span>배송지 수집 동의</span>
+            </Button>
+          </Link>
+        )} */}
       </Layout>
     </>
   );

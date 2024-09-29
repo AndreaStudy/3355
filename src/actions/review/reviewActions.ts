@@ -25,7 +25,11 @@ export async function getReviewList(
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
-  return data.result.content as string[];
+  if (data.result) {
+    return data.result.content as string[];
+  } else {
+    return [];
+  }
 }
 
 export async function getMediaReviewList(

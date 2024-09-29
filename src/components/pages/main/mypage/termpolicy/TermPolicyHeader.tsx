@@ -9,9 +9,11 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 async function TermPolicyHeader() {
   const session = await getServerSession(options);
   const agree: boolean = await getDeliveryTermData(session?.user?.accessToken);
+  console.log('00000', agree);
   const handleToggle = async () => {
     'use server';
-    await postToggleDeliveryTermAction(session?.user?.accessToken);
+    const res = await postToggleDeliveryTermAction(session?.user?.accessToken);
+    console.log(res);
   };
   return (
     <header className="flex justify-between m-4 pb-4 border-b-2">

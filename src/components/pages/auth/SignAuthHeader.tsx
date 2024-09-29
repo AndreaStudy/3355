@@ -6,7 +6,7 @@ const SignAuthHeader = ({ method }: { method: AuthenticationMethodType }) => {
     <div className="font-bold flex flex-col items-start mb-6">
       <Image
         alt="starbucks-logo"
-        src="/assets/images/logos/Starbucks-logo.svg"
+        src="/assets/images/logos/starbucks-logo.svg"
         width={100}
         height={100}
         className="mb-4"

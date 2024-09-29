@@ -129,6 +129,7 @@ function DeliveryField({ delivery }: { delivery: deliveryDataType | null }) {
         </span>
         <Button
           onClick={handleAddressSearch}
+          type="button"
           className="col-span-1 rounded-full"
         >
           주소검색

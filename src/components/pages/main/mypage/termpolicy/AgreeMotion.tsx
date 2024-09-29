@@ -34,7 +34,7 @@ function AgreeMotion({
     <>
       <div
         onClick={handleModal}
-        className={`flex h-7 w-12 rounded-full ${!agree ? 'justify-start bg-slate-200' : 'justify-end bg-starbucks-green'} p-1`}
+        className={`flex h-7 w-12 rounded-full ${agree ? 'justify-end bg-starbucks-green' : 'justify-start bg-slate-200'} p-1`}
       >
         <motion.p
           className={'h-5 w-5 rounded-full bg-white'}
