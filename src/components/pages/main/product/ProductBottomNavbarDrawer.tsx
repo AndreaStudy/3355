@@ -1,33 +1,56 @@
 'use client';
+import { useRouter } from 'next/navigation'; // Next.js 13의 useRouter를 사용
+import { cartUpdate } from '@/actions/cart/cartAction';
 import {
   DrawerContent,
   DrawerDescription,
   DrawerTitle,
+  DrawerClose,
 } from '@/components/ui/drawer';
 import { InfoIcon } from 'lucide-react';
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 function ProductBottomNavbarDrawer({
   type,
   productUuid,
   productName,
   productPrice,
+  isAuth,
+  token,
 }: {
   type: number;
   productUuid: string;
   productName: string;
   productPrice: number;
+  isAuth: boolean;
+  token: string;
 }) {
+  const [notification, setNotification] = useState('');
   const [productCount, setProductCount] = useState(1);
-  // todo: 상품에 대해서 1회 주문 당 상품 구매 제한 개수 alert
+  const router = useRouter(); // useRouter 훅을 사용하여 라우터 접근
+
   const handleProductAdd = () => {
     if (productCount < 3) {
       setProductCount((prev) => prev + 1);
     }
   };
+
   const handleProductSubtract = () => {
     if (productCount > 1) {
       setProductCount((prev) => prev - 1);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (isAuth) {
+      const res = await cartUpdate(token, productUuid, productCount);
+      if (res) {
+        setNotification(`${productName}이(가) 장바구니에 담겼습니다.`);
+      }
+    } else {
+      alert('회원가입이 필요합니다.');
+      router.push('/sign-in');
     }
   };
 
@@ -75,7 +98,7 @@ function ProductBottomNavbarDrawer({
         <div className="w-full h-14">
           <button
             className="w-1/2 h-full bg-black text-white"
-            // onClick={() => addCart(productUuid, productCount)}
+            onClick={handleAddToCart} // 수정된 함수 호출
           >
             장바구니
           </button>
@@ -84,6 +107,19 @@ function ProductBottomNavbarDrawer({
           </button>
         </div>
       </div>
+      {notification && (
+        <DrawerClose>
+          <div
+            onClick={() => setNotification('')}
+            className="absolute top-0 left-1/2 w-10/12 transform -translate-x-1/2 mt-4 p-2 mb-2 bg-blue-500 text-lg text-white rounded"
+          >
+            <p>{notification}</p>
+            <button className="w-1/2 h-full p-2 mt-2 rounded-lg bg-white text-black">
+              확인
+            </button>
+          </div>
+        </DrawerClose>
+      )}
     </DrawerContent>
   );
 }

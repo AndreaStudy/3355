@@ -175,10 +175,32 @@ export async function deleteDeliveryData(
   return data.result;
 }
 
-// 배송지 약관 동의 여부 조회하기
-export async function getDeliveryTermData(token: string): Promise<boolean> {
+// 배송지 약관 동의 토글
+export async function toggleDeliveryTermData(token: string): Promise<boolean> {
   const res = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/shipping/agreeStatus`,
+    `${process.env.API_BASE_URL}/api/v1/shipping/toggleAgreeStatus`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      cache: 'no-cache',
+    }
+  );
+  if (!res.ok) {
+    return redirect('/error?message=Failed to fetch delivery term');
+  }
+  revalidateTag('toggleDeliveryTerm');
+  return await res.json();
+}
+
+// 배송지 약관 동의 여부 조회하기
+export async function getDeliveryTermStatusData(
+  token: string
+): Promise<boolean> {
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/shipping/getOrCreateAgreeStatus`,
     {
       method: 'GET',
       next: { tags: ['toggleDeliveryTerm'] },
@@ -193,22 +215,22 @@ export async function getDeliveryTermData(token: string): Promise<boolean> {
     return redirect('/error?message=Failed to fetch delivery term');
   }
   const data = await res.json();
-  return data.result;
+  return data.result.shippingAgree;
 }
 
 // 배송지 약관 동의 여부 토글하기
-export async function postToggleDeliveryTermAction(token: string) {
-  'use server';
-  const res = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/shipping/agreeCancel`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    }
-  );
-  revalidateTag('toggleDeliveryTerm');
-  return await res.json();
-}
+// export async function postToggleDeliveryTermAction(token: string) {
+//   'use server';
+//   const res = await fetch(
+//     `${process.env.API_BASE_URL}/api/v1/shipping/agreeCancel`,
+//     {
+//       method: 'PUT',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${token}`,
+//       },
+//     }
+//   );
+//   revalidateTag('toggleDeliveryTerm');
+//   return await res.json();
+// }

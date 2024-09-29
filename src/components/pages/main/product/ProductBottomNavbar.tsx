@@ -14,7 +14,13 @@ import {
   getProductPrice,
 } from '@/actions/product/productActions';
 
-function ProductBottomNavbar() {
+function ProductBottomNavbar({
+  isAuth,
+  token,
+}: {
+  isAuth: boolean;
+  token: string;
+}) {
   const params = useParams();
   const productUuid = params.productId as string;
   const [productInfo, setProductInfo] = useState<productBasicDataType>();
@@ -61,6 +67,8 @@ function ProductBottomNavbar() {
             productUuid={productUuid}
             productName={productInfo.productName}
             productPrice={productPrice.price}
+            isAuth={isAuth}
+            token={token}
           />
         )}
       </Drawer>

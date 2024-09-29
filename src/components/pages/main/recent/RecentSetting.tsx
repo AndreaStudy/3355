@@ -20,9 +20,6 @@ function RecentSetting({
 }) {
   const handleSubmit = () => {
     // todo: 삭제 (delete api) 후 redirect??
-    if (checkedItems.length > 0) {
-      console.log(checkedItems);
-    }
   };
   const handleSelectAll = (checked: boolean | string) => {
     if (checked) {

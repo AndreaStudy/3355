@@ -160,6 +160,5 @@ export async function getRecentProductList(token: string): Promise<string[]> {
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
-  console.log(data.result);
   return data.result.content as string[];
 }

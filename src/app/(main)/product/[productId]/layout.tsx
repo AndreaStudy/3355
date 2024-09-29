@@ -1,9 +1,11 @@
+import { options } from '@/app/api/auth/[...nextauth]/options';
 import Footer from '@/components/layouts/Footer';
 import ProductBottomNavbar from '@/components/pages/main/product/ProductBottomNavbar';
 import ScrollProvider from '@/providers/ScrollProvider';
+import { getServerSession } from 'next-auth';
 import React from 'react';
 
-function Layout({
+async function Layout({
   children,
   productinfo,
   reviews,
@@ -16,6 +18,9 @@ function Layout({
   recommend: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  const session = await getServerSession(options);
+  const isAuth = session?.user.accessToken ? true : false;
+  const token = isAuth ? session?.user.accessToken : '';
   return (
     <>
       <ScrollProvider>
@@ -29,7 +34,7 @@ function Layout({
       </ScrollProvider>
       {modal}
       <Footer />
-      <ProductBottomNavbar />
+      <ProductBottomNavbar isAuth={isAuth} token={token} />
     </>
   );
 }

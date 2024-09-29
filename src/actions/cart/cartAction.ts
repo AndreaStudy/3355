@@ -53,7 +53,7 @@ export async function fetchCartItemPrice(
 // 장바구니 체크 업데이트
 export const cartCheckUpdate = async (token: string, item: cartItemType) => {
   'use server';
-  const res = fetch(
+  const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/wishList/${item.productUuid}/check`,
     {
       method: 'PUT',
@@ -70,20 +70,23 @@ export const cartCheckUpdate = async (token: string, item: cartItemType) => {
 // 장바구니 전체 체크 업데이트
 export const cartCheckAllUpdate = async (token: string) => {
   'use server';
-  const res = fetch(`${process.env.API_BASE_URL}/api/v1/wishList/checkAll`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/wishList/checkAll`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
   revalidateTag('checkCart');
 };
 
 // 장바구니 체크된 품목 삭제
 export const deleteCartCheckedItemList = async (token: string) => {
   'use server';
-  const res = fetch(
+  const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/wishList/deleteChecked`,
     {
       method: 'DELETE',
@@ -99,7 +102,7 @@ export const deleteCartCheckedItemList = async (token: string) => {
 // 장바구니 폼목 1개 삭제
 export const deleteCartItem = async (token: string, productUuid: string) => {
   'use server';
-  const res = fetch(
+  const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/wishList/${productUuid}/deleteWishListItem`,
     {
       method: 'DELETE',
@@ -181,7 +184,7 @@ export const quantityIncreaseUpdate = async (
   item: cartItemType
 ) => {
   'use server';
-  const res = fetch(
+  const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/wishList/itemQuantity/${item.productUuid}/add`,
     {
       method: 'PUT',
@@ -201,7 +204,7 @@ export const quantityDecreaseUpdate = async (
   item: cartItemType
 ) => {
   'use server';
-  const res = fetch(
+  const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/wishList/itemQuantity/${item.productUuid}/subtract`,
     {
       method: 'PUT',
@@ -211,6 +214,34 @@ export const quantityDecreaseUpdate = async (
       },
     }
   );
+  revalidateTag('checkCart');
+  return true;
+};
+
+// 장바구니에 품목 담기
+export const cartUpdate = async (
+  token: string,
+  productUuid: string,
+  quantity: number
+): Promise<boolean> => {
+  'use server';
+  const payload = {
+    productUuid: productUuid,
+  };
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/wishList/fromProductDetailsPage/wishlist/${productUuid}/add/${quantity}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+  if (!res.ok) {
+    return redirect('/error?message=Failed to fetch cart update');
+  }
   revalidateTag('checkCart');
   return true;
 };

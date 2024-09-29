@@ -13,7 +13,6 @@ async function Page({
   const reviewItem: reviewItemDataType = await getReviewItem(
     searchParams.reviewId
   );
-  console.log('*&&&&&&&&&&&&&&&&&&&&&&&&', reviewItem);
   // fetch: reviewId로 img 정보 들고오기
   const reviewImgList: string[] = [
     'https://succ.ssgcdn.com/uphoto/202408/20240802102941_1223449928_0_1.jpg',

@@ -4,7 +4,7 @@ import AddDeliveryForm from '@/components/forms/AddDeliveryForm';
 import CloseHeader from '@/components/layouts/CloseHeader';
 import MyPageHeader from '@/components/layouts/MyPageHeader';
 import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 async function Page() {
   const session = await getServerSession(options);
@@ -12,9 +12,8 @@ async function Page() {
   const handlePostDelivery = async (formData: FormData) => {
     'use server';
     const res = await postDeliveryAction(formData, session?.user?.accessToken);
-    console.log('========', res);
     if (res.httpStatus === 'OK') {
-      redirect('/mypage/delivery');
+      redirect('/mypage/delivery', RedirectType.replace);
     }
   };
 

@@ -68,7 +68,6 @@ export const options: NextAuthOptions = {
             user.accessToken = data.result?.accessToken;
             user.name = data.result?.userId;
             user.uuid = data.result?.uuid;
-            console.log(data.result);
           } else {
             return '/sign-up';
           }

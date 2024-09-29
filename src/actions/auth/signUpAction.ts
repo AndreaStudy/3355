@@ -125,7 +125,6 @@ export async function changePw(formData: FormData, token: string) {
   const payload = {
     newPassword: formData.get('password'),
   };
-  console.log(payload);
   const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/auth/update-password`,
     {
