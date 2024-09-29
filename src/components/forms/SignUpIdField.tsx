@@ -13,7 +13,7 @@ function SignUpIdField({
   onNext,
   formData,
 }: {
-  onNext: () => void;
+  onNext: (num: number) => void;
   formData: FormData;
 }) {
   const [errorMessages, setErrorMessages] = useState<
@@ -134,7 +134,7 @@ function SignUpIdField({
         <Button
           size={'submit'}
           type="button"
-          onClick={onNext}
+          onClick={() => onNext(1)}
           disabled={!isDuplicateChecked}
         >
           다음

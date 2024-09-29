@@ -4,7 +4,7 @@ import BackIcon from '/public/assets/images/icons/backIcon.svg';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import CartStaticIcon from '@/components/ui/CartStaticIcon';
 
-function ProductDetailHeader() {
+function ProductDetailHeader({ count }: { count: number }) {
   const router = useRouter();
   const pathName = usePathname();
   const query = useSearchParams();
@@ -23,7 +23,7 @@ function ProductDetailHeader() {
         <li onClick={() => handleRouter('review')}>리뷰</li>
         <li onClick={() => handleRouter('recommend')}>상품추천</li>
       </ul>
-      <CartStaticIcon count={10} />
+      <CartStaticIcon count={count} />
     </header>
   );
 }

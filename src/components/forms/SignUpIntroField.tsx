@@ -14,7 +14,7 @@ function SignUpIntroField({
   onNext,
 }: {
   items: signUpIntroDataType[];
-  onNext: () => void;
+  onNext: (num: number) => void;
 }) {
   const [terms, setTerms] = useState<string[]>([]);
   const [errorMessages, setErrorMessages] = useState<
@@ -107,7 +107,7 @@ function SignUpIntroField({
         <Button
           size={'submit'}
           type="button"
-          onClick={onNext}
+          onClick={() => onNext(1)}
           disabled={!isButtonEnabled}
         >
           다음

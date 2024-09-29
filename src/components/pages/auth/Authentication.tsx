@@ -9,23 +9,22 @@ import FindIdLayout from './find-id/FindIdLayout';
 import FindPwLayout from './find-pw/FindPwLayout';
 import { findPwDataType } from '@/types/ResponseTypes';
 import { findId, findPw } from '@/actions/auth/signUpAction';
+import useFunnel from '@/lib/Funnel/useFunnel';
+import FunnelProvider from '@/lib/Funnel/FunnelProvider';
 
 const steps = ['findAuth', 'foundId', 'foundPw'];
 
 function Authentication({ method }: { method: AuthenticationMethodType }) {
-  const [stepLevel, setStepLevel] = useState(0);
   const [name, setName] = useState('');
-  const onNext = (num: number) => {
-    setStepLevel((prev) => prev + num);
-  };
   const [data, setData] = useState<findPwDataType>();
+  const { step, onNextStep } = useFunnel({ steps });
 
   const handleFindAuth = async (formData: FormData) => {
     if (method === 'find-id') {
       const result = await findId(formData);
       if (result.userId) {
         setName(result.userId);
-        onNext(1);
+        onNextStep(1);
       } else {
         alert(result.message);
       }
@@ -33,7 +32,7 @@ function Authentication({ method }: { method: AuthenticationMethodType }) {
       const result = await findPw(formData);
       if (result.accessToken) {
         setData(result);
-        onNext(2);
+        onNextStep(2);
       } else {
         alert('아이디 또는 이메일이 일치하지 않습니다.');
       }
@@ -41,16 +40,20 @@ function Authentication({ method }: { method: AuthenticationMethodType }) {
   };
 
   return (
-    <>
-      {steps[stepLevel] === 'findAuth' && (
+    <FunnelProvider step={step}>
+      <FunnelProvider.Step name="findAuth">
         <Layout variant="authentication">
           <SignUpAuthHeader method={method} />
           <FindAuthForm method={method} handleFindAuth={handleFindAuth} />
         </Layout>
-      )}
-      {steps[stepLevel] === 'foundId' && <FindIdLayout name={name} />}
-      {steps[stepLevel] === 'foundPw' && <FindPwLayout data={data} />}
-    </>
+      </FunnelProvider.Step>
+      <FunnelProvider.Step name="foundId">
+        <FindIdLayout name={name} />
+      </FunnelProvider.Step>
+      <FunnelProvider.Step name="foundPw">
+        <FindPwLayout data={data} />
+      </FunnelProvider.Step>
+    </FunnelProvider>
   );
 }
 

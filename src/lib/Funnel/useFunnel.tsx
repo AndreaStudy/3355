@@ -7,14 +7,17 @@ interface UseFunnelProps {
 const useFunnel = ({ steps }: UseFunnelProps) => {
   const [level, setStepLevel] = useState(0);
 
-  const onNextStep = useCallback(() => {
-    setStepLevel((prev) => {
-      if (prev >= steps.length - 1) {
-        return prev;
-      }
-      return prev + 1;
-    });
-  }, [steps]);
+  const onNextStep = useCallback(
+    (num: number) => {
+      setStepLevel((prev) => {
+        if (prev >= steps.length - 1) {
+          return prev;
+        }
+        return prev + num;
+      });
+    },
+    [steps]
+  );
 
   const onPrevStep = useCallback(() => {
     setStepLevel((prev) => {

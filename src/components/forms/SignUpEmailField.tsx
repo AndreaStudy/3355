@@ -13,7 +13,7 @@ function SignUpEmailField({
   onNext,
   formData,
 }: {
-  onNext: () => void;
+  onNext: (num: number) => void;
   formData: FormData;
 }) {
   const [errorMessages, setErrorMessages] = useState<
@@ -133,7 +133,7 @@ function SignUpEmailField({
         <Button
           size={'submit'}
           type="button"
-          onClick={onNext}
+          onClick={() => onNext(1)}
           disabled={!isDuplicateChecked}
         >
           다음

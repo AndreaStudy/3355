@@ -39,6 +39,28 @@ export async function getProductBasicInfo(
   } as productBasicDataType;
 }
 
+// 상품 상세조회
+export async function getProductDetailInfo(
+  token: string,
+  productUuid: string
+): Promise<null> {
+  'use server';
+  const res = await fetch(
+    `${process.env.API_BASE_URL}/api/v1/product/${productUuid}/infoPage`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+  if (!res.ok) {
+    return redirect('/error?message=Failed to fetch product detail info');
+  }
+  return null;
+}
+
 // 가격만 조회
 export async function getProductPrice(
   productUuid: string
@@ -120,10 +142,17 @@ export async function getProductsByCategory(
   return data.result.content as string[];
 }
 
-export async function getRecentProductList(): Promise<string[]> {
+export async function getRecentProductList(token: string): Promise<string[]> {
   'use server';
   const res = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/product/recentlyViewed`
+    `${process.env.API_BASE_URL}/api/v1/product/recentlyViewed`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
   );
   if (!res.ok) {
     return redirect('/error?message=Failed to fetch recent product list');
@@ -131,5 +160,6 @@ export async function getRecentProductList(): Promise<string[]> {
   const data = (await res.json()) as commonResType<
     infiniteResultType<string[]>
   >;
+  console.log(data.result);
   return data.result.content as string[];
 }
