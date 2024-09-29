@@ -165,7 +165,6 @@ export async function getCartCount(token: string): Promise<number> {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      next: { tags: ['checkCart, addCart, cartCount, deleteCart'] },
       cache: 'no-cache',
     }
   );

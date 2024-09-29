@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 
-function MainHeaderNav() {
+function MainHeaderNav({ count }: { count: number }) {
   const pathName = usePathname();
   const router = useRouter();
   return (
@@ -42,7 +42,14 @@ function MainHeaderNav() {
         </li>
         <li>
           <Link href="/cart" scroll={false}>
-            <CartWhiteIcon />
+            <div className="relative">
+              <CartWhiteIcon width="24" height="24" />
+              {count !== 0 && (
+                <div className="absolute -top-1 -right-1 bg-starbucks-red rounded-full h-4 w-4 text-white text-[9px] font-bold flex justify-center items-center">
+                  {count}
+                </div>
+              )}
+            </div>
           </Link>
         </li>
       </ul>

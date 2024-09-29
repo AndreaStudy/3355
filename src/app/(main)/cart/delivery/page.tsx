@@ -1,3 +1,4 @@
+import { getCartCount } from '@/actions/cart/cartAction';
 import {
   getDeliveryListData,
   putBaseDeliveryAction,
@@ -13,6 +14,8 @@ import React from 'react';
 
 export default async function Page() {
   const session = await getServerSession(options);
+  const isAuth = session?.user ? true : false;
+  const count = isAuth ? await getCartCount(session?.user.accessToken) : 0;
   const deliveries: deliveryDataType[] = (await getDeliveryListData(
     session?.user?.accessToken
   )) as deliveryDataType[];
@@ -32,7 +35,7 @@ export default async function Page() {
 
   return (
     <>
-      <BasicHeader />
+      <BasicHeader count={count} />
       <div className="p-2">
         <MyPageHeader text="기본 배송지 수정" />
         <CartDeliveryContent

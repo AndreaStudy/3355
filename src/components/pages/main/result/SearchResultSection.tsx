@@ -1,6 +1,7 @@
 import SearchInput from '@/components/ui/SearchInput';
 import React from 'react';
 import ProductList from '../product/ProductList';
+import ProductListServer from '../product/ProductListServer';
 
 async function SearchResultSection({
   searchValue,
@@ -22,7 +23,7 @@ async function SearchResultSection({
           </p>
         </div>
       ) : (
-        <ProductList productUuidList={productUuidList} />
+        <ProductListServer productUuidList={productUuidList} />
       )}
     </section>
   );

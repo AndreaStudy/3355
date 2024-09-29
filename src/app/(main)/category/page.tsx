@@ -3,6 +3,7 @@ import { getProductsByCategory } from '@/actions/product/productActions';
 import CategoryBreadcrumb from '@/components/pages/main/category/CategoryBreadcrumb';
 import FilterBadgeList from '@/components/pages/main/category/FilterBadgeList';
 import ProductList from '@/components/pages/main/product/ProductList';
+import ProductListServer from '@/components/pages/main/product/ProductListServer';
 import { topCategoryDataType } from '@/types/ResponseTypes';
 import React from 'react';
 
@@ -34,7 +35,7 @@ export default async function Page({
             </span>
             개의 상품이 있습니다.
           </p>
-          <ProductList productUuidList={productUuidList} />
+          <ProductListServer productUuidList={productUuidList} />
         </section>
       )}
     </main>

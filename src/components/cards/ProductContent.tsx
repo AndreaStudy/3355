@@ -41,7 +41,7 @@ async function ProductContent({
         <Link href={`/product/${productUuid}`}>
           <p className="line-clamp-2">{basicInfo.productName}</p>
           <p className="text-base font-bold text-black">
-            {price.toLocaleString()}원
+            {price.price.toLocaleString()}원
           </p>
           {reviewSummary.reviewcount > 0 ? (
             <div className="flex gap-1 items-center text-[#777777] text-xs">

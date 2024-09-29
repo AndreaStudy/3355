@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CartStaticIcon from '../ui/CartStaticIcon';
 
-function BasicHeader() {
+function BasicHeader({ count }: { count: number }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -29,7 +29,7 @@ function BasicHeader() {
         </div>
         <div className="flex gap-3">
           <SearchIcon onClick={toggleSearch} fill="black" />
-          <CartStaticIcon count={10} />
+          <CartStaticIcon count={count} />
         </div>
       </header>
     </div>
