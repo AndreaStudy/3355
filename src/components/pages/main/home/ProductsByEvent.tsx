@@ -6,6 +6,7 @@ import {
 } from '@/actions/event/eventActions';
 import { eventUuidDataType } from '@/types/ResponseTypes';
 import ProductSkeleton from '@/components/skeletons/ProductSkeleton';
+import ProductContent from '@/components/cards/ProductContent';
 
 async function ProductsByEvent({
   eventUuid,
@@ -23,7 +24,7 @@ async function ProductsByEvent({
         {productUuidList.map((productUuid) => {
           return (
             <Suspense key={productUuid} fallback={<ProductSkeleton />}>
-              <Product productUuid={productUuid} size="md" />
+              <ProductContent productUuid={productUuid} size="md" />
             </Suspense>
           );
         })}
