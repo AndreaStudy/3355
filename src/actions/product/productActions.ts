@@ -28,7 +28,7 @@ export async function getProductBasicInfo(
   const data = (await res.json()) as commonResType<productBasicDataResType>;
   let imgList;
   if (data.result.productDescription !== null) {
-    imgList = data.result.productDescription.split(',');
+    imgList = data.result.productDescription.split(', ');
   } else {
     imgList = [''];
   }
