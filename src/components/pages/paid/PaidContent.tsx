@@ -9,29 +9,6 @@ interface SearchParams {
   [key: string]: string;
 }
 
-interface OrderDataType {
-  aid: string;
-  tid: string;
-  cid: string;
-  partner_order_id: string;
-  partner_user_id: string;
-  payment_method_type: string;
-  amount: {
-    total: number;
-    taxFree: number;
-    tax: number;
-    point: number;
-    discount: number;
-    greenDeposit: number;
-  };
-  tax_free_amount: null;
-  item_name: string;
-  quantity: number;
-  created_at: string;
-  approved_at: string;
-  payload: null;
-}
-
 function PaidContent({
   searchParams,
   handleDeleteCart,
@@ -40,26 +17,34 @@ function PaidContent({
   handleDeleteCart: () => Promise<void>;
 }) {
   const router = useRouter();
-  const [paid, setPaid] = useState<boolean>(true);
-
-  const handlePaid = () => {
-    setPaid(true);
-  };
+  const [paid, setPaid] = useState<boolean>(false);
+  const [noti, setNoti] = useState<string>('');
 
   const kakaoPay = async () => {
     const tid = sessionStorage.getItem('tid');
     if (tid) {
       const kakao = await paidKakao(searchParams.pg_token, tid);
       if (kakao) {
-        await handleDeleteCart();
-        handlePaid();
+        setNoti(kakao.aid);
       }
     }
   };
 
   useEffect(() => {
-    kakaoPay();
+    const timer = setTimeout(() => {
+      kakaoPay();
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    setPaid(true);
+  }, [noti]);
+
+  useEffect(() => {
+    handleDeleteCart();
+  }, [paid]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
@@ -71,6 +56,7 @@ function PaidContent({
           <p className="mt-4 text-gray-700">
             주문이 성공적으로 처리되었습니다.
           </p>
+          {noti && <p className="mt-4 text-gray-700">주문번호 : {noti}</p>}
           <button
             className="mt-6 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-600"
             onClick={() => router.push('/')}

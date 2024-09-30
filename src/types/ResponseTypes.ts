@@ -242,3 +242,26 @@ export interface shippingProductDataType {
   price: productPriceDataType;
   image: imageDataType;
 }
+
+export interface OrderDataType {
+  aid: string;
+  tid: string;
+  cid: string;
+  partner_order_id: string;
+  partner_user_id: string;
+  payment_method_type: string;
+  amount: {
+    total: number;
+    taxFree: number;
+    tax: number;
+    point: number;
+    discount: number;
+    greenDeposit: number;
+  };
+  tax_free_amount: null;
+  item_name: string;
+  quantity: number;
+  created_at: string;
+  approved_at: string;
+  payload: null;
+}

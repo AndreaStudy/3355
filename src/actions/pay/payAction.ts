@@ -1,13 +1,15 @@
 'use server';
 
+import { OrderDataType } from '@/types/ResponseTypes';
+
 // 카카오페이 준비
 export async function payKakao(token: string, total_amount: number) {
   'use server';
   const payload = {
     cid: 'TC0ONETIME',
-    partner_order_id: 'starbucks',
-    partner_user_id: 'starbucks',
-    item_name: 'starbucks',
+    partner_order_id: '스타벅스',
+    partner_user_id: '스타벅스',
+    item_name: '스타벅스',
     quantity: 1,
     total_amount: total_amount,
     vat_amount: 10,
@@ -33,10 +35,13 @@ export async function payKakao(token: string, total_amount: number) {
 }
 
 // 카카오페이 결제요청
-export async function paidKakao(pg_token: string, tid: string) {
+export async function paidKakao(
+  pg_token: string,
+  tid: string
+): Promise<OrderDataType | null> {
   'use server';
   const res = await fetch(
-    `${process.env.API_BASE_URL}/api/v1/kakao/success?pg_token=${pg_token}&tid=${tid}&partner_order_id=string&partner_user_id=string`,
+    `${process.env.API_BASE_URL}/api/v1/kakao/success?pg_token=${pg_token}&tid=${tid}&partner_order_id=스타벅스&partner_user_id=스타벅스`,
     {
       method: 'POST',
       headers: {

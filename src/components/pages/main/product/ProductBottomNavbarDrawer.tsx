@@ -29,7 +29,7 @@ function ProductBottomNavbarDrawer({
 }) {
   const [notification, setNotification] = useState('');
   const [productCount, setProductCount] = useState(1);
-  const router = useRouter(); // useRouter 훅을 사용하여 라우터 접근
+  const router = useRouter();
 
   const handleProductAdd = () => {
     if (productCount < 3) {
@@ -57,7 +57,7 @@ function ProductBottomNavbarDrawer({
 
   const handlePay = async () => {
     if (isAuth) {
-      const ready = await payKakao(token, productPrice * productCount);
+      const ready = await payKakao(token, productPrice * productCount + 3000);
       if (ready.next_redirect_pc_url) {
         sessionStorage.setItem('tid', ready.tid);
         router.push(ready.next_redirect_pc_url);
@@ -95,11 +95,15 @@ function ProductBottomNavbarDrawer({
                 {productPrice?.toLocaleString()}원
               </span>
             </div>
+            <div className="flex justify-between">
+              <p></p>
+              <p>배송비: 3000원</p>
+            </div>
           </div>
           <div className="flex gap-2 font-bold items-center justify-end">
             <span>총 합계</span>
             <span className="text-2xl text-starbucks-red">
-              {(productPrice * productCount)?.toLocaleString()}원
+              {(productPrice * productCount + 3000)?.toLocaleString()}원
             </span>
           </div>
           {type === 1 ? (

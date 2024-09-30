@@ -39,7 +39,10 @@ function CartBottomTab({
   const handlePay = async (id: number) => {
     if (id === 2) {
       setIsView(true);
-      const ready = await payKakao(token, totalPrice);
+      const ready = await payKakao(
+        token,
+        totalPrice + shippingPrice - discountPrice
+      );
       if (ready.next_redirect_pc_url) {
         sessionStorage.setItem('tid', ready.tid);
         router.push(ready.next_redirect_pc_url);

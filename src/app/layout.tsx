@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     description: '스타벅스 프로젝트',
     images: [{ url: '/assets/images/og/og_image.png' }],
   },
+  viewport:
+    'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
 };
 
 export default async function RootLayout({
