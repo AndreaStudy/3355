@@ -16,13 +16,15 @@ import { redirect } from 'next/navigation';
 // 상품 기본 정보
 export async function getProductBasicInfo(
   productUuid: string
-): Promise<productBasicDataType> {
+): Promise<productBasicDataType | null> {
   'use server';
   const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/product/${productUuid}`
   );
+  console.log(res);
+
   if (!res.ok) {
-    return redirect('/error?message=Failed to fetch product basic info');
+    return null;
   }
 
   const data = (await res.json()) as commonResType<productBasicDataResType>;

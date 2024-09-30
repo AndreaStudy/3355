@@ -39,7 +39,7 @@ async function ProductContent({
           </div>
         </div>
         <Link href={`/product/${productUuid}`}>
-          <p className="line-clamp-2">{basicInfo.productName}</p>
+          <p className="line-clamp-2">{basicInfo && basicInfo.productName}</p>
           <p className="text-base font-bold text-black">
             {price.price.toLocaleString()}원
           </p>

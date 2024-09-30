@@ -4,4 +4,5 @@ export const routes = {
   cart: '/cart',
   mypage: '/mypage',
   like: '/wishlist',
+  recent: '/recent',
 };
