@@ -21,7 +21,6 @@ export async function getProductBasicInfo(
   const res = await fetch(
     `${process.env.API_BASE_URL}/api/v1/product/${productUuid}`
   );
-  console.log(res);
 
   if (!res.ok) {
     return {
