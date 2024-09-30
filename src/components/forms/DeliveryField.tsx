@@ -130,7 +130,7 @@ function DeliveryField({ delivery }: { delivery: deliveryDataType | null }) {
         <Button
           onClick={handleAddressSearch}
           type="button"
-          className="col-span-1 rounded-full"
+          className="col-span-1 rounded-full text-sm"
         >
           주소검색
         </Button>
@@ -189,7 +189,7 @@ function DeliveryField({ delivery }: { delivery: deliveryDataType | null }) {
         customMessage={inputValues.customMessage}
         setValue={handleChange}
       />
-      <div className={'flex items-center space-x-2 p-1 gap-1'}>
+      <div className={'flex items-center space-x-2 p-1 gap-1 mb-[72px]'}>
         <Checkbox
           variant="medium"
           id="baseAddress"

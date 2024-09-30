@@ -4,8 +4,6 @@ import {
   putBaseDeliveryAction,
 } from '@/actions/mypage/deleveryAction';
 import { options } from '@/app/api/auth/[...nextauth]/options';
-import BasicHeader from '@/components/layouts/BasicHeader';
-import MyPageHeader from '@/components/layouts/MyPageHeader';
 import CartDeliveryContent from '@/components/pages/main/cart/CartDeliveryContent';
 import { deliveryDataType } from '@/types/ResponseTypes';
 import { getServerSession } from 'next-auth';
@@ -35,9 +33,7 @@ export default async function Page() {
 
   return (
     <>
-      <BasicHeader count={count} />
       <div className="p-2">
-        <MyPageHeader text="기본 배송지 수정" />
         <CartDeliveryContent
           deliveries={sortedDeliveries}
           handleBaseDelivery={handleBaseDelivery}

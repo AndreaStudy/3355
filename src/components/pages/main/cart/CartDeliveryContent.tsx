@@ -69,16 +69,16 @@ function CartDeliveryContent({
         <Link href="/mypage/delivery">
           <Button
             type="button"
-            className="flex justify-center items-center gap-x-2"
+            className="flex w-full justify-center items-center gap-x-2"
           >
-            <span>배송지 설정하러 가기</span>
+            배송지 설정
           </Button>
         </Link>
         <Button
           type="submit"
-          className="flex justify-center items-center gap-x-2"
+          className="flex w-full justify-center items-center gap-x-2"
         >
-          <span>기본 배송지 변경</span>
+          기본 배송지 변경
         </Button>
       </Layout>
     </form>

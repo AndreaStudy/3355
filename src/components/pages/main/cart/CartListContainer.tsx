@@ -83,7 +83,7 @@ export default function CartListContainer({
   }, [cartItemList]);
 
   return (
-    <main>
+    <main className="p-2">
       <CartControls
         isLoading={isLoading}
         curruntId={curruntId}
